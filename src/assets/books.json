@@ -1,0 +1,633 @@
+[
+    {
+      "id": "1",
+      "title": "The Coder's Almanac: A Guide to Modern JavaScript",
+      "author": "Eleanor Vance",
+      "category": "Programming",
+      "isbn": "978-1-23-456789-0",
+      "price": 39.99,
+      "published": "2023"
+    },
+    {
+      "id": "2",
+      "title": "Data Structures & Algorithms in Python",
+      "author": "Julian Richter",
+      "category": "Programming",
+      "isbn": "978-1-23-456789-1",
+      "price": 49.99,
+      "published": "2022"
+    },
+    {
+      "id": "3",
+      "title": "Rust for Systems Developers",
+      "author": "Anya Sharma",
+      "category": "Programming",
+      "isbn": "978-1-23-456789-2",
+      "price": 55.50,
+      "published": "2024"
+    },
+    {
+      "id": "4",
+      "title": "The Art of Clean Code",
+      "author": "Marcus Thorne",
+      "category": "Programming",
+      "isbn": "978-1-23-456789-3",
+      "price": 35.00,
+      "published": "2021"
+    },
+    {
+      "id": "5",
+      "title": "Web Development with React and Node.js",
+      "author": "Chloe Davis",
+      "category": "Programming",
+      "isbn": "978-1-23-456789-4",
+      "price": 45.75,
+      "published": "2023"
+    },
+    {
+      "id": "6",
+      "title": "Database Design and SQL Essentials",
+      "author": "Samuel Chen",
+      "category": "Programming",
+      "isbn": "978-1-23-456789-5",
+      "price": 38.25,
+      "published": "2020"
+    },
+    {
+      "id": "7",
+      "title": "Machine Learning Fundamentals with TensorFlow",
+      "author": "Isabella Martinez",
+      "category": "Programming",
+      "isbn": "978-1-23-456789-6",
+      "price": 60.00,
+      "published": "2022"
+    },
+    {
+      "id": "8",
+      "title": "The Myth of Sisyphus",
+      "author": "Albert Camus",
+      "category": "Philosophy",
+      "isbn": "978-0-14-118259-7",
+      "price": 15.99,
+      "published": "1942"
+    },
+    {
+      "id": "9",
+      "title": "A Brief History of Time",
+      "author": "Stephen Hawking",
+      "category": "Science",
+      "isbn": "978-0-55-338016-3",
+      "price": 18.50,
+      "published": "1988"
+    },
+    {
+      "id": "10",
+      "title": "The Midnight Library",
+      "author": "Matt Haig",
+      "category": "Fiction",
+      "isbn": "978-0-14-313540-8",
+      "price": 16.00,
+      "published": "2020"
+    },
+    {
+      "id": "11",
+      "title": "Advanced CSS and SASS",
+      "author": "Luke Harrison",
+      "category": "Programming",
+      "isbn": "978-1-23-456789-7",
+      "price": 29.99,
+      "published": "2021"
+    },
+    {
+      "id": "12",
+      "title": "Deep Work: Rules for Focused Success",
+      "author": "Cal Newport",
+      "category": "Self-Help",
+      "isbn": "978-1-45-558669-1",
+      "price": 22.00,
+      "published": "2016"
+    },
+    {
+      "id": "13",
+      "title": "JavaScript: The Definitive Guide",
+      "author": "David Flanagan",
+      "category": "Programming",
+      "isbn": "978-0-59-680482-4",
+      "price": 52.99,
+      "published": "2020"
+    },
+    {
+      "id": "14",
+      "title": "Dune",
+      "author": "Frank Herbert",
+      "category": "Science Fiction",
+      "isbn": "978-0-44-117271-9",
+      "price": 14.50,
+      "published": "1965"
+    },
+    {
+      "id": "15",
+      "title": "Python Crash Course",
+      "author": "Eric Matthes",
+      "category": "Programming",
+      "isbn": "978-1-59-327928-8",
+      "price": 34.99,
+      "published": "2019"
+    },
+    {
+      "id": "16",
+      "title": "The Alchemist",
+      "author": "Paulo Coelho",
+      "category": "Fantasy",
+      "isbn": "978-0-06-231500-6",
+      "price": 12.99,
+      "published": "1988"
+    },
+    {
+      "id": "17",
+      "title": "Introduction to Cyber Security",
+      "author": "Hannah Kim",
+      "category": "Programming",
+      "isbn": "978-1-23-456789-8",
+      "price": 48.00,
+      "published": "2024"
+    },
+    {
+      "id": "18",
+      "title": "A Game of Thrones",
+      "author": "George R. R. Martin",
+      "category": "Fantasy",
+      "isbn": "978-0-55-359371-0",
+      "price": 25.50,
+      "published": "1996"
+    },
+    {
+      "id": "19",
+      "title": "The Lean Startup",
+      "author": "Eric Ries",
+      "category": "Business",
+      "isbn": "978-0-30-788789-4",
+      "price": 28.00,
+      "published": "2011"
+    },
+    {
+      "id": "20",
+      "title": "Mastering TypeScript",
+      "author": "Sofia Rodriguez",
+      "category": "Programming",
+      "isbn": "978-1-23-456789-9",
+      "price": 42.50,
+      "published": "2023"
+    },
+    {
+      "id": "21",
+      "title": "The Great Gatsby",
+      "author": "F. Scott Fitzgerald",
+      "category": "Classic",
+      "isbn": "978-0-74-327356-5",
+      "price": 9.99,
+      "published": "1925"
+    },
+    {
+      "id": "22",
+      "title": "Clean Architecture",
+      "author": "Robert C. Martin",
+      "category": "Programming",
+      "isbn": "978-0-13-449416-6",
+      "price": 51.00,
+      "published": "2017"
+    },
+    {
+      "id": "23",
+      "title": "Lord of the Flies",
+      "author": "William Golding",
+      "category": "Classic",
+      "isbn": "978-0-39-959089-2",
+      "price": 11.50,
+      "published": "1954"
+    },
+    {
+      "id": "24",
+      "title": "Effective Java",
+      "author": "Joshua Bloch",
+      "category": "Programming",
+      "isbn": "978-0-13-468599-1",
+      "price": 59.99,
+      "published": "2018"
+    },
+    {
+      "id": "25",
+      "title": "The Subtle Art of Not Giving a F*ck",
+      "author": "Mark Manson",
+      "category": "Self-Help",
+      "isbn": "978-0-06-245771-3",
+      "price": 17.50,
+      "published": "2016"
+    },
+    {
+      "id": "26",
+      "title": "Head First Design Patterns",
+      "author": "Eric Freeman",
+      "category": "Programming",
+      "isbn": "978-0-59-600712-0",
+      "price": 49.00,
+      "published": "2004"
+    },
+    {
+      "id": "27",
+      "title": "The Design of Everyday Things",
+      "author": "Don Norman",
+      "category": "Design",
+      "isbn": "978-0-46-505065-9",
+      "price": 24.99,
+      "published": "1988"
+    },
+    {
+      "id": "28",
+      "title": "Algorithms Unlocked",
+      "author": "Thomas H. Cormen",
+      "category": "Programming",
+      "isbn": "978-0-26-251883-2",
+      "price": 36.50,
+      "published": "2013"
+    },
+    {
+      "id": "29",
+      "title": "Educated",
+      "author": "Tara Westover",
+      "category": "Memoir",
+      "isbn": "978-0-39-959050-2",
+      "price": 27.99,
+      "published": "2018"
+    },
+    {
+      "id": "30",
+      "title": "The Pragmatic Programmer",
+      "author": "Andrew Hunt",
+      "category": "Programming",
+      "isbn": "978-0-13-595705-9",
+      "price": 45.00,
+      "published": "1999"
+    },
+    {
+      "id": "31",
+      "title": "Kitchen Confidential",
+      "author": "Anthony Bourdain",
+      "category": "Memoir",
+      "isbn": "978-0-06-085731-9",
+      "price": 16.99,
+      "published": "2000"
+    },
+    {
+      "id": "32",
+      "title": "The Code Book",
+      "author": "Simon Singh",
+      "category": "History",
+      "isbn": "978-0-38-549532-5",
+      "price": 19.50,
+      "published": "1999"
+    },
+    {
+      "id": "33",
+      "title": "Fluent Python",
+      "author": "Luciano Ramalho",
+      "category": "Programming",
+      "isbn": "978-1-49-194600-8",
+      "price": 65.00,
+      "published": "2015"
+    },
+    {
+      "id": "34",
+      "title": "The Silent Patient",
+      "author": "Alex Michaelides",
+      "category": "Thriller",
+      "isbn": "978-1-25-030169-7",
+      "price": 15.00,
+      "published": "2019"
+    },
+    {
+      "id": "35",
+      "title": "You Don't Know JS Yet: Get Started",
+      "author": "Kyle Simpson",
+      "category": "Programming",
+      "isbn": "978-1-23-456789-10",
+      "price": 25.99,
+      "published": "2020"
+    },
+    {
+      "id": "36",
+      "title": "The Road",
+      "author": "Cormac McCarthy",
+      "category": "Post-Apocalyptic",
+      "isbn": "978-0-30-738789-8",
+      "price": 14.99,
+      "published": "2006"
+    },
+    {
+      "id": "37",
+      "title": "Refactoring: Improving the Design of Existing Code",
+      "author": "Martin Fowler",
+      "category": "Programming",
+      "isbn": "978-0-13-475704-9",
+      "price": 59.50,
+      "published": "2018"
+    },
+    {
+      "id": "38",
+      "title": "Sapiens: A Brief History of Humankind",
+      "author": "Yuval Noah Harari",
+      "category": "History",
+      "isbn": "978-0-06-231609-6",
+      "price": 21.00,
+      "published": "2015"
+    },
+    {
+      "id": "39",
+      "title": "Cracking the Coding Interview",
+      "author": "Gayle Laakmann McDowell",
+      "category": "Programming",
+      "isbn": "978-0-98-478285-7",
+      "price": 39.00,
+      "published": "2015"
+    },
+    {
+      "id": "40",
+      "title": "Atomic Habits",
+      "author": "James Clear",
+      "category": "Self-Help",
+      "isbn": "978-0-73-521129-2",
+      "price": 23.00,
+      "published": "2018"
+    },
+    {
+      "id": "41",
+      "title": "The Hitchhiker's Guide to the Galaxy",
+      "author": "Douglas Adams",
+      "category": "Science Fiction",
+      "isbn": "978-0-34-539180-3",
+      "price": 13.99,
+      "published": "1979"
+    },
+    {
+      "id": "42",
+      "title": "Accelerate: The Science of Lean Software",
+      "author": "Nicole Forsgren",
+      "category": "Programming",
+      "isbn": "978-1-94-118835-2",
+      "price": 31.99,
+      "published": "2018"
+    },
+    {
+      "id": "43",
+      "title": "Where the Crawdads Sing",
+      "author": "Delia Owens",
+      "category": "Fiction",
+      "isbn": "978-0-73-521909-0",
+      "price": 16.99,
+      "published": "2018"
+    },
+    {
+      "id": "44",
+      "title": "Learning Go: An Idiomatic Approach",
+      "author": "Jon Bodner",
+      "category": "Programming",
+      "isbn": "978-1-49-207718-4",
+      "price": 49.99,
+      "published": "2021"
+    },
+    {
+      "id": "45",
+      "title": "Cosmos",
+      "author": "Carl Sagan",
+      "category": "Science",
+      "isbn": "978-0-34-553943-4",
+      "price": 19.50,
+      "published": "1980"
+    },
+    {
+      "id": "46",
+      "title": "The Lord of the Rings",
+      "author": "J.R.R. Tolkien",
+      "category": "Fantasy",
+      "isbn": "978-0-54-792823-4",
+      "price": 29.99,
+      "published": "1954"
+    },
+    {
+      "id": "47",
+      "title": "The Stand",
+      "author": "Stephen King",
+      "category": "Horror",
+      "isbn": "978-0-30-795293-6",
+      "price": 22.50,
+      "published": "1978"
+    },
+    {
+      "id": "48",
+      "title": "Designing Data-Intensive Applications",
+      "author": "Martin Kleppmann",
+      "category": "Programming",
+      "isbn": "978-1-44-937332-0",
+      "price": 69.99,
+      "published": "2017"
+    },
+    {
+      "id": "49",
+      "title": "The Book Thief",
+      "author": "Markus Zusak",
+      "category": "Historical Fiction",
+      "isbn": "978-0-37-584220-7",
+      "price": 14.00,
+      "published": "2005"
+    },
+    {
+      "id": "50",
+      "title": "Becoming",
+      "author": "Michelle Obama",
+      "category": "Memoir",
+      "isbn": "978-1-52-476313-8",
+      "price": 32.00,
+      "published": "2018"
+    },
+    {
+      "id": "51",
+      "title": "Grokking Algorithms",
+      "author": "Aditya Bhargava",
+      "category": "Programming",
+      "isbn": "978-1-61-729223-1",
+      "price": 38.00,
+      "published": "2016"
+    },
+    {
+      "id": "52",
+      "title": "The Power of Habit",
+      "author": "Charles Duhigg",
+      "category": "Self-Help",
+      "isbn": "978-0-81-298160-5",
+      "price": 18.99,
+      "published": "2012"
+    },
+    {
+      "id": "53",
+      "title": "JavaScript from a Modern Perspective",
+      "author": "David Adams",
+      "category": "Programming",
+      "isbn": "978-1-23-456789-11",
+      "price": 32.50,
+      "published": "2023"
+    },
+    {
+      "id": "54",
+      "title": "Freakonomics",
+      "author": "Steven D. Levitt",
+      "category": "Economics",
+      "isbn": "978-0-06-073132-9",
+      "price": 16.50,
+      "published": "2005"
+    },
+    {
+      "id": "55",
+      "title": "Head First Java",
+      "author": "Kathy Sierra",
+      "category": "Programming",
+      "isbn": "978-0-59-600920-9",
+      "price": 45.99,
+      "published": "2005"
+    },
+    {
+      "id": "56",
+      "title": "1984",
+      "author": "George Orwell",
+      "category": "Dystopian",
+      "isbn": "978-0-45-152493-5",
+      "price": 10.99,
+      "published": "1949"
+    },
+    {
+      "id": "57",
+      "title": "The Go Programming Language",
+      "author": "Alan A. A. Donovan",
+      "category": "Programming",
+      "isbn": "978-0-13-419044-0",
+      "price": 54.00,
+      "published": "2015"
+    },
+    {
+      "id": "58",
+      "title": "A Song of Ice and Fire: A Storm of Swords",
+      "author": "George R. R. Martin",
+      "category": "Fantasy",
+      "isbn": "978-0-55-357342-2",
+      "price": 26.50,
+      "published": "2000"
+    },
+    {
+      "id": "59",
+      "title": "The Lean Software Development",
+      "author": "Mary Poppendieck",
+      "category": "Programming",
+      "isbn": "978-0-32-115078-3",
+      "price": 40.00,
+      "published": "2003"
+    },
+    {
+      "id": "60",
+      "title": "The Hobbit",
+      "author": "J.R.R. Tolkien",
+      "category": "Fantasy",
+      "isbn": "978-0-61-826030-0",
+      "price": 15.50,
+      "published": "1937"
+    },
+    {
+      "id": "61",
+      "title": "The Joy of Cooking",
+      "author": "Irma S. Rombauer",
+      "category": "Cookbook",
+      "isbn": "978-0-74-327356-5",
+      "price": 30.00,
+      "published": "1931"
+    },
+    {
+      "id": "62",
+      "title": "The Clean Coder",
+      "author": "Robert C. Martin",
+      "category": "Programming",
+      "isbn": "978-0-13-708107-3",
+      "price": 33.99,
+      "published": "2011"
+    },
+    {
+      "id": "63",
+      "title": "The Code Breaker",
+      "author": "Walter Isaacson",
+      "category": "Biography",
+      "isbn": "978-1-98-211585-2",
+      "price": 29.00,
+      "published": "2021"
+    },
+    {
+      "id": "64",
+      "title": "The Phoenix Project",
+      "author": "Gene Kim",
+      "category": "Business",
+      "isbn": "978-0-98-826259-1",
+      "price": 24.99,
+      "published": "2013"
+    },
+    {
+      "id": "65",
+      "title": "Atonement",
+      "author": "Ian McEwan",
+      "category": "Historical Fiction",
+      "isbn": "978-0-38-572235-9",
+      "price": 13.50,
+      "published": "2001"
+    },
+    {
+      "id": "66",
+      "title": "Working Effectively with Legacy Code",
+      "author": "Michael C. Feathers",
+      "category": "Programming",
+      "isbn": "978-0-13-117705-5",
+      "price": 47.99,
+      "published": "2004"
+    },
+    {
+      "id": "67",
+      "title": "The Stand",
+      "author": "Stephen King",
+      "category": "Horror",
+      "isbn": "978-0-30-795293-6",
+      "price": 22.50,
+      "published": "1978"
+    },
+    {
+      "id": "68",
+      "title": "Code Complete: A Practical Handbook",
+      "author": "Steve McConnell",
+      "category": "Programming",
+      "isbn": "978-0-73-561967-8",
+      "price": 59.00,
+      "published": "2004"
+    },
+    {
+      "id": "69",
+      "title": "Thinking, Fast and Slow",
+      "author": "Daniel Kahneman",
+      "category": "Psychology",
+      "isbn": "978-0-37-453355-7",
+      "price": 21.99,
+      "published": "2011"
+    },
+    {
+      "id": "70",
+      "title": "The DevOps Handbook",
+      "author": "Gene Kim",
+      "category": "Programming",
+      "isbn": "978-1-94-278800-3",
+      "price": 49.99,
+      "published": "2016"
+    }
+  ]
+  
