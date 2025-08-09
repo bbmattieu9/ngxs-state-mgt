@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
   imports: [BookListComponent, CommonModule],
   template: `
    
-   <section>
+<section>
   <app-book-list></app-book-list>
 </section>
   `,
