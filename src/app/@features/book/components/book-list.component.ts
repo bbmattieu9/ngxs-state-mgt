@@ -7,70 +7,78 @@ import { Book } from '../types/books.interface';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { BookTableComponent } from "../../../@shared/components/book-table.component";
+
+import { NzDrawerService } from 'ng-zorro-antd/drawer';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { ColumnDefinition } from '../../../@shared/types/table-types';
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+
 
 @Component({
   selector: 'app-book-list',
-  imports: [NzTableModule, AsyncPipe, CommonModule, NzButtonModule, NzDividerModule ],
+  imports: [
+     NzTableModule, 
+     NzModalModule, 
+     NzDrawerModule,
+     AsyncPipe, CommonModule, 
+     NzButtonModule, 
+     NzDividerModule, 
+     NzIconModule, 
+     BookTableComponent],
   template: `
   
-   <nz-table #basicTable [nzData]="(books$ | async) ?? []">
-        <thead>
-       
-          <tr>
-            <th width="100px">s/n</th>
-            <th width="100px">Title</th>
-            <th width="100px">Author</th>
-            <th width="100px">ISBN</th>
-            <th width="100px">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-        @for (data of basicTable.data; track data) {
-          <tr>
-            <td nzAlign="center">{{ data.id }}</td>
-            <td nzAlign="center">{{ data.title }}</td>
-            <td nzAlign="center">{{ data.author }}</td>
-            <td nzAlign="center">{{ data.isbn }}</td>
-            <td nzAlign="center">
-            <button nz-button nzType="primary" (click)="delete(data.id)">Delete</button>
-            <nz-divider nzType="vertical"></nz-divider>
-            <button nz-button nzType="primary" (click)="view(data)">view</button>
-            </td>
-          </tr>
-        }
-        </tbody>
-      </nz-table>
+   <app-book-table
+      [data]="(books$ | async) ?? []"
+      [columns]="columns"
+      (view)="openViewDrawer($event)"
+      (edit)="openEditModal($event)"
+      (delete)="deleteBook($event)">
+   </app-book-table>
+  
   `,
-  styles: ``
+  styles: `
+  
+  .tbl__icon {
+    cursor: pointer;
+  }`
 })
 export class BookListComponent {
-
-  
-  title = '';
-  author = '';
-  isbn = '';
 
   store = inject(Store);
   books$ = this.store.select(BooksState.books);
 
+  columns: ColumnDefinition[]  = [
+    { key: 'id', label: 'ID', width: '40px', nzAlign: 'center' },
+    { key: 'title', label: 'Title', width: '100px' },
+    { key: 'author', label: 'Author', width: '100px' },
+    { key: 'isbn', label: 'ISBN', width: '100px', nzAlign: 'center' },
+  ];
   
   ngOnInit(): void {
     this.store.dispatch(new GetBooks());
   }
 
-  add() {
-    if (!this.title.trim() || !this.author.trim()) return;
-    
+  openViewDrawer(book: Book) {
+
+    // TODO: Logic to open a drawer and pass the book data
   }
 
+  openEditModal(book: Book) {
 
-  view(book: Book) {
-    console.log('[ __Selected Book__]:', book);
+    // TODO: Logic to open a modal for editing
+
+    console.log('[ __OpenEditModal__ ]:', book);
   }
 
-
-  delete(id: number) {
+  deleteBook(id: number) {
     this.store.dispatch(new DeleteBook(id));
+  }
+
+  edit(book: Book) {
+
   }
 
 }
