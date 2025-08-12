@@ -9,9 +9,6 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { BookTableComponent } from "../../../@shared/components/book-table.component";
-
-import { NzDrawerService } from 'ng-zorro-antd/drawer';
-import { NzModalService } from 'ng-zorro-antd/modal';
 import { ColumnDefinition } from '../../../@shared/types/table-types';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzModalModule } from 'ng-zorro-antd/modal';

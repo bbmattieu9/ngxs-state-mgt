@@ -12,7 +12,6 @@ export class BookService {
 
   _httpMessenger = inject(HttpClient);
   private readonly ASSET_URL = 'books.json';
-  // private readonly DELAY_MS = 3000;
 
 
   getBooks(): Observable<Book[]> {
