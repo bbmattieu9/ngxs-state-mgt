@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { NzTableModule } from 'ng-zorro-antd/table';
-import { AddBook, DeleteBook, GetBooks } from '../actions/book.actions';
+import { AddBook, DeleteBook, GetBooks, UpdateBook } from '../actions/book.actions';
 import { Store } from '@ngxs/store';
 import { BooksState } from '../state/book.state';
 import { Book } from '../types/books.interface';
@@ -12,6 +12,8 @@ import { BookTableComponent } from "../../../@shared/components/book-table.compo
 import { ColumnDefinition } from '../../../@shared/types/table-types';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { ModalService } from '../../../@shared/services/modal.service';
+import { BookFormModalComponent } from '../../../@shared/components/book-form-modal.component';
 
 
 @Component({
@@ -26,12 +28,16 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
      NzIconModule, 
      BookTableComponent],
   template: `
+
+  <button nz-button (click)="addBook()">Add Book</button>
   
+
+  <!--  (view)="openViewDrawer($event)" -->
    <app-book-table
       [data]="(books$ | async) ?? []"
       [columns]="columns"
-      (view)="openViewDrawer($event)"
-      (edit)="openEditModal($event)"
+     
+      (edit)="editBook($event)"
       (delete)="deleteBook($event)">
    </app-book-table>
   
@@ -46,6 +52,8 @@ export class BookListComponent {
 
   store = inject(Store);
   books$ = this.store.select(BooksState.books);
+
+  private modalService = inject(ModalService);
 
   columns: ColumnDefinition[]  = [
     { key: 'id', label: 'ID', width: '40px', nzAlign: 'center' },
@@ -63,19 +71,27 @@ export class BookListComponent {
     // TODO: Logic to open a drawer and pass the book data
   }
 
-  openEditModal(book: Book) {
-
-    // TODO: Logic to open a modal for editing
-
-    console.log('[ __OpenEditModal__ ]:', book);
-  }
-
   deleteBook(id: number) {
     this.store.dispatch(new DeleteBook(id));
   }
 
-  edit(book: Book) {
 
+  addBook(): void {
+    const modalRef = this.modalService.openModal(BookFormModalComponent, { mode: 'add' }, { nzTitle: 'Add New Book' });
+    modalRef.afterClose.subscribe(result => {
+      if (result) {
+        this.store.dispatch(new AddBook(result));
+      }
+    });
+  }
+
+  editBook(book: Book): void {
+    const modalRef = this.modalService.openModal(BookFormModalComponent, { mode: 'edit', book }, { nzTitle: 'Edit Book' });
+    modalRef.afterClose.subscribe(result => {
+      if (result) {
+        this.store.dispatch(new UpdateBook(result));
+      }
+    });
   }
 
 }
