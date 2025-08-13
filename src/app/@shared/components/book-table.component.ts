@@ -43,16 +43,10 @@ import { ConfirmButtonComponent } from './confirm-button.component';
               nzTheme="outline"
               (click)="view.emit(row)"
             ></nz-icon>
-            <nz-divider nzType="vertical"></nz-divider>
-            <nz-icon
-              class="tbl__icon"
-              nzType="delete"
-              nzTheme="outline"
-              (click)="delete.emit(row.id)"
-            ></nz-icon>
+
             <nz-divider nzType="vertical"></nz-divider>
 
-            <!-- <nz-icon class="tbl__icon" nzType="edit" nzTheme="outline" (click)="edit.emit(row)"></nz-icon> -->
+            <nz-icon class="tbl__icon" nzType="edit" nzTheme="outline" (click)="edit.emit(row)"></nz-icon>
 
             <app-confirm-button
               type="link"
