@@ -16,7 +16,7 @@ export class ModalService {
     return this.nzModalService.create({
       nzTitle: options?.nzTitle || 'Modal',
       nzContent: component,
-      nzWidth: options?.nzWidth || '620px',
+      nzWidth: options?.nzWidth || '700px',
       nzData: { data },
       nzFooter: null, // TODO: to be handled in the component
     });
