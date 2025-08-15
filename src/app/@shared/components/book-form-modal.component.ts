@@ -35,27 +35,95 @@ interface ModalData {
     NzInputNumberModule,
   ],
   template: `
-    <form nz-form [formGroup]="bookForm" (ngSubmit)="submitForm()">
-      <h3>{{ data.mode === 'add' ? 'Add New Book' : 'Edit Book' }}</h3>
 
+<form nz-form [formGroup]="bookForm">
+  <h3>{{ data.mode === 'add' ? 'Add New Book' : 'Edit Book' }}</h3>
+
+  <div class="form-grid">
+
+    <div class="grid-item">
       <nz-form-item>
         <nz-form-label nzFor="title">Title</nz-form-label>
         <nz-form-control>
           <input nz-input formControlName="title" id="title" />
         </nz-form-control>
       </nz-form-item>
+    </div>
 
+    <div class="grid-item">
       <nz-form-item>
-        <nz-form-control [nzSpan]="14" [nzOffset]="6">
-          <button nz-button [nzType]="'primary'" [disabled]="!bookForm.valid">
-            Submit
-          </button>
-          <button nz-button (click)="cancel()">Cancel</button>
+        <nz-form-label nzFor="author">Author</nz-form-label>
+        <nz-form-control>
+          <input nz-input formControlName="author" id="author" />
         </nz-form-control>
       </nz-form-item>
-    </form>
+    </div>
+
+    <div class="grid-item">
+      <nz-form-item>
+        <nz-form-label nzFor="category">Category</nz-form-label>
+        <nz-form-control>
+          <input nz-input formControlName="category" id="category" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div class="grid-item">
+      <nz-form-item>
+        <nz-form-label nzFor="isbn">ISBN</nz-form-label>
+        <nz-form-control>
+          <input nz-input formControlName="isbn" id="isbn" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div class="grid-item">
+      <nz-form-item>
+        <nz-form-label nzFor="price">Price</nz-form-label>
+        <nz-form-control>
+          <nz-input-number formControlName="price" id="price"></nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div class="grid-item">
+      <nz-form-item>
+        <nz-form-label nzFor="published">Published</nz-form-label>
+        <nz-form-control>
+          <nz-date-picker formControlName="published" id="published"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+  </div>
+
+  <nz-form-item>
+    <nz-form-control>
+      <button nz-button nzType="primary" [disabled]="!bookForm.valid">
+        Submit
+      </button>
+      <button nz-button (click)="cancel()">Cancel</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+
   `,
-  styles: ``,
+  styles: `
+
+.form-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  
+  .grid-item {
+    flex: 1 1 calc(33.333% - 16px);
+  }
+  
+  .grid-item nz-form-item {
+    width: 100%;
+  }
+  `,
 })
 export class BookFormModalComponent implements OnInit {
   @Input() data!: { mode: 'add' | 'edit'; book?: Book };
