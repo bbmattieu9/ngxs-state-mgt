@@ -14,6 +14,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { Book } from '../../@features/book/types/books.interface';
+import { CATEGORY_OPTIONS } from '../../@features/book/data-access/mock-data'; 
 
 
 interface ModalData {
@@ -63,7 +64,11 @@ interface ModalData {
       <nz-form-item>
         <nz-form-label nzFor="category">Category</nz-form-label>
         <nz-form-control>
-          <input nz-input formControlName="category" id="category" />
+          <nz-select formControlName="category" id="category">
+            @for (option of categoryOptions; track option) {
+              <nz-option [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
+            }
+          </nz-select>
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -161,4 +166,6 @@ export class BookFormModalComponent implements OnInit {
   cancel(): void {
     this.modalRef.destroy(null);
   }
+
+  categoryOptions  = CATEGORY_OPTIONS;
 }
