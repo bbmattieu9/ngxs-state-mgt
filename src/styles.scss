@@ -1,1 +1,39 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Mozilla+Headline:wght@200..700&display=swap');
+
+/* Global Font Styling */
+* {
+  font-family: 'Mozilla Headline', sans-serif;
+}
+
+body {
+  font-family: 'Mozilla Headline', sans-serif;
+  font-weight: 400;
+}
+
+/* Form Label Styling */
+.ant-form-item-label > label,
+nz-form-label,
+nz-form-label > label {
+  font-family: 'Mozilla Headline', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #595959 !important;
+}
+
+/* Custom Modal Styles */
+.custom-modal-with-border-radius {
+  .ant-modal-content {
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  
+  .ant-modal-header {
+    border-radius: 12px 12px 0 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  .ant-modal-body {
+    border-radius: 0 0 12px 12px;
+  }
+}
