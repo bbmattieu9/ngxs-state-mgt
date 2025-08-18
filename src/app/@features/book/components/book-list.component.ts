@@ -5,7 +5,6 @@ import { Store } from '@ngxs/store';
 import { BooksState } from '../state/book.state';
 import { Book } from '../types/books.interface';
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { BookTableComponent } from "../../../@shared/components/book-table.component";
@@ -14,6 +13,7 @@ import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { ModalService } from '../../../@shared/services/modal.service';
 import { BookFormModalComponent } from '../../../@shared/components/book-form-modal.component';
+import { AppButtonComponent } from '../../../@shared/components/app-button.component';
 
 
 @Component({
@@ -23,13 +23,21 @@ import { BookFormModalComponent } from '../../../@shared/components/book-form-mo
      NzModalModule, 
      NzDrawerModule,
      AsyncPipe, CommonModule, 
-     NzButtonModule, 
      NzDividerModule, 
      NzIconModule, 
-     BookTableComponent],
+     BookTableComponent,
+     AppButtonComponent],
   template: `
 
-  <button nz-button (click)="addBook()">Add Book</button>
+  <div class="page-header">
+    <app-button 
+      type="primary" 
+      icon="plus" 
+      (clicked)="addBook()"
+    >
+      Add Book
+    </app-button>
+  </div>
   
 
   <!--  (view)="openViewDrawer($event)" -->
@@ -43,6 +51,13 @@ import { BookFormModalComponent } from '../../../@shared/components/book-form-mo
   
   `,
   styles: `
+  
+  .page-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 16px;
+    padding: 0 8px;
+  }
   
   .tbl__icon {
     cursor: pointer;
@@ -77,7 +92,16 @@ export class BookListComponent {
 
 
   addBook(): void {
-    const modalRef = this.modalService.openModal(BookFormModalComponent, { mode: 'add' }, { nzTitle: 'Add New Book' });
+    const modalRef = this.modalService.openModal(
+      BookFormModalComponent, 
+      { mode: 'add' }, 
+      { 
+        nzTitle: 'Add New Book',
+        nzWidth: '650px',
+        nzCentered: true,
+        nzBodyStyle: { padding: '20px', maxHeight: '70vh', overflow: 'auto' }
+      }
+    );
     modalRef.afterClose.subscribe(result => {
       if (result) {
         this.store.dispatch(new AddBook(result));
@@ -86,7 +110,17 @@ export class BookListComponent {
   }
 
   editBook(book: Book): void {
-    const modalRef = this.modalService.openModal(BookFormModalComponent, { mode: 'edit', book }, { nzTitle: 'Edit Book' });
+    console.log('[ __Selected Book__ ]:', book);
+    const modalRef = this.modalService.openModal(
+      BookFormModalComponent, 
+      { mode: 'edit', book }, 
+      { 
+        nzTitle: 'Edit Book',
+        nzWidth: '650px',
+        nzCentered: true,
+        nzBodyStyle: { padding: '20px', maxHeight: '70vh', overflow: 'auto' }
+      }
+    );
     modalRef.afterClose.subscribe(result => {
       if (result) {
         this.store.dispatch(new UpdateBook(result));
