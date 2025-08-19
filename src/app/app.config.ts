@@ -15,16 +15,18 @@ import en from '@angular/common/locales/en';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+
 
 registerLocaleData(en);
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }), 
+    provideZoneChangeDetection({ eventCoalescing: true }),  
     provideRouter(APP_ROUTES),
     provideStore([BooksState]),
     provideAnimations(),
-    importProvidersFrom(NzModalModule),
+    importProvidersFrom(NzModalModule, NzDrawerModule),
     provideHttpClient(
       withInterceptors([loadingInterceptor])
     ), 
