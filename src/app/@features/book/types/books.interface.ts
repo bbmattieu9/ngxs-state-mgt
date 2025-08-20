@@ -7,3 +7,12 @@ export interface Book {
     price: number;
     published: string;
   }
+
+
+  export interface BookFilter {
+    title?: string;
+    author?: string;
+    category?: string;
+    minPrice?: number;
+    maxPrice?: number;
+  }
