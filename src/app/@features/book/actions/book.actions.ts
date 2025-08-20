@@ -1,7 +1,12 @@
-import { Book } from "../types/books.interface";
+import { Book, BookFilter } from "../types/books.interface";
 
 export class GetBooks {
     static readonly type = '[Books] Get All';
+  }
+
+  export class SetBookFilters {
+    static readonly type = '[Books] Set Filters';
+    constructor(public filters: Partial<BookFilter>) {}
   }
 
   export class AddBook {

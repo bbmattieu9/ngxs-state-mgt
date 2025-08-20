@@ -4,6 +4,7 @@ import {
   AddBook,
   DeleteBook,
   GetBooks,
+  SetBookFilters,
   UpdateBook,
 } from '../actions/book.actions';
 import { Store } from '@ngxs/store';
@@ -86,7 +87,8 @@ import { AppButtonComponent } from '../../../@shared/components/app-button.compo
 })
 export class BookListComponent {
   store = inject(Store);
-  books$ = this.store.select(BooksState.books);
+  // books$ = this.store.select(BooksState.books);
+  books$ = this.store.select(BooksState.filteredBooks);
 
   private modalService = inject(ModalService);
   private drawerService = inject(DrawerService);
@@ -107,7 +109,7 @@ export class BookListComponent {
       ViewBookComponent,
       { book },
       {
-        nzTitle: `Book Details: ${book.title}`,
+        nzTitle: `Book Details:`,
         nzWidth: 500,
         nzPlacement: 'right',
         nzBodyStyle: { padding: '20px' },
@@ -116,6 +118,7 @@ export class BookListComponent {
 
     drawerRef.afterClose.subscribe((result) => {
       console.log('View drawer closed:', result);
+     
     });
   }
 
@@ -132,9 +135,8 @@ export class BookListComponent {
     );
 
     drawerRef.afterClose.subscribe((filters) => {
-      if (filters) {
-        console.log('Applied filters:', filters);
-        // Future: Apply filters to book list
+      if (filters !== undefined) {
+        this.store.dispatch(new SetBookFilters(filters));
       }
     });
   }

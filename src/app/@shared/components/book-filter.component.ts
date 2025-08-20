@@ -167,6 +167,6 @@ export class BookFilterComponent implements OnInit {
 
   clearFilters(): void {
     this.filterForm.reset();
-    console.log('Filters cleared');
+    this.drawerRef?.close({});
   }
 }
