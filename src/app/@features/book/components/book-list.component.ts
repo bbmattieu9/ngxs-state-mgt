@@ -40,10 +40,19 @@ import { AppButtonComponent } from '../../../@shared/components/app-button.compo
   template: `
     <div class="page-header">
       <div class="header-left">
-        <app-button type="default" icon="filter" (clicked)="openFilterDrawer()">
-          Filter
+          <app-button type="default" icon="filter" (clicked)="openFilterDrawer()">
+            Filter
+          </app-button>
+
+
+        <app-button 
+            type="default" 
+            icon="reload" 
+            (clicked)="resetFilters()"
+            [disabled]="!(isFiltered$ | async)">
+          Reset Filters
         </app-button>
-      </div>
+   </div>
 
       <div class="header-right">
         <app-button type="primary" icon="plus" (clicked)="addBook()">
@@ -86,12 +95,14 @@ import { AppButtonComponent } from '../../../@shared/components/app-button.compo
   }`,
 })
 export class BookListComponent {
-  store = inject(Store);
-  // books$ = this.store.select(BooksState.books);
-  books$ = this.store.select(BooksState.filteredBooks);
 
+  store = inject(Store);
   private modalService = inject(ModalService);
   private drawerService = inject(DrawerService);
+  
+  books$ = this.store.select(BooksState.filteredBooks);
+  isFiltered$ = this.store.select(state => Object.keys(state.books.filters).length > 0);
+
 
   columns: ColumnDefinition[] = [
     { key: 'id', label: 'ID', width: '40px', nzAlign: 'center' },
@@ -180,5 +191,9 @@ export class BookListComponent {
         this.store.dispatch(new UpdateBook(result));
       }
     });
+  }
+
+  resetFilters() {
+    this.store.dispatch(new SetBookFilters({}));
   }
 }
