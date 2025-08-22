@@ -16,6 +16,8 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import { NgIdleModule } from '@ng-idle/core';
+import { NzProgressModule } from 'ng-zorro-antd/progress';
 
 
 registerLocaleData(en);
@@ -26,7 +28,8 @@ export const appConfig: ApplicationConfig = {
     provideRouter(APP_ROUTES),
     provideStore([BooksState]),
     provideAnimations(),
-    importProvidersFrom(NzModalModule, NzDrawerModule),
+    importProvidersFrom(NzModalModule, NzDrawerModule, NgIdleModule.forRoot(),
+    NzProgressModule),
     provideHttpClient(
       withInterceptors([loadingInterceptor])
     ), 
