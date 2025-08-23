@@ -19,7 +19,15 @@ import { ConfirmButtonComponent } from './confirm-button.component';
     ConfirmButtonComponent,
   ],
   template: `
-    <nz-table #basicTable [nzData]="data ?? []" nzShowPagination>
+    <nz-table #basicTable 
+      [nzData]="data ?? []" 
+      nzShowPagination
+      [nzPageSize]="nzPageSize"
+      [nzPageSizeOptions]="nzPageSizeOptions"
+      (nzPageSizeChange)="onPageSizeChange($event)"
+      [nzFrontPagination]="true"
+      nzShowSizeChanger
+    >
       <thead>
         <tr>
           @for (col of columns; track col) {
@@ -73,8 +81,15 @@ import { ConfirmButtonComponent } from './confirm-button.component';
 export class BookTableComponent {
   @Input() data: any[] | null = [];
   @Input() columns: ColumnDefinition[] = [];
+  @Input() nzPageSize: number = 10;
+  @Input() nzPageSizeOptions: number[] = [5, 10, 20, 50];
 
   @Output() view = new EventEmitter<any>();
   @Output() edit = new EventEmitter<any>();
   @Output() delete = new EventEmitter<any>();
+  @Output() nzPageSizeChange = new EventEmitter<number>();
+
+  onPageSizeChange(size: number): void {
+    this.nzPageSizeChange.emit(size);
+  }
 }

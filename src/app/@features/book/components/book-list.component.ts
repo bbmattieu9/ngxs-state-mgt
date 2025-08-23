@@ -23,6 +23,8 @@ import { BookFormModalComponent } from '../../../@shared/components/book-form-mo
 import { ViewBookComponent } from '../../../@shared/components/view-book.component';
 import { BookFilterComponent } from '../../../@shared/components/book-filter.component';
 import { AppButtonComponent } from '../../../@shared/components/app-button.component';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-book-list',
@@ -36,6 +38,8 @@ import { AppButtonComponent } from '../../../@shared/components/app-button.compo
     NzIconModule,
     BookTableComponent,
     AppButtonComponent,
+    NzSelectModule,
+    FormsModule,
   ],
   template: `
     <div class="page-header">
@@ -55,6 +59,17 @@ import { AppButtonComponent } from '../../../@shared/components/app-button.compo
    </div>
 
       <div class="header-right">
+        <nz-select 
+          [(ngModel)]="pageSize" 
+          (ngModelChange)="onPageSizeChange($event)"
+          nzPlaceHolder="Select Page Size"
+          style="width: 120px; margin-right: 8px;"
+        >
+          @for (option of pageSizeOptions; track option) {
+            <nz-option [nzLabel]="option + ' / page'" [nzValue]="option"></nz-option>
+          }
+        </nz-select>
+
         <app-button type="primary" icon="plus" (clicked)="addBook()">
           Add Book
         </app-button>
@@ -67,6 +82,9 @@ import { AppButtonComponent } from '../../../@shared/components/app-button.compo
       (view)="openViewDrawer($event)"
       (edit)="editBook($event)"
       (delete)="deleteBook($event)"
+      [nzPageSize]="pageSize"
+      [nzPageSizeOptions]="pageSizeOptions"
+      (nzPageSizeChange)="onPageSizeChange($event)"
     >
     </app-book-table>
   `,
@@ -103,6 +121,8 @@ export class BookListComponent {
   books$ = this.store.select(BooksState.filteredBooks);
   isFiltered$ = this.store.select(state => Object.keys(state.books.filters).length > 0);
 
+  pageSize: number = 10;
+  pageSizeOptions: number[] = [5, 10, 20, 50];
 
   columns: ColumnDefinition[] = [
     { key: 'id', label: 'ID', width: '40px', nzAlign: 'center' },
@@ -113,6 +133,11 @@ export class BookListComponent {
 
   ngOnInit(): void {
     this.store.dispatch(new GetBooks());
+  }
+
+  onPageSizeChange(size: number): void {
+    this.pageSize = size;
+    // Optionally dispatch an action to update the store if pagination state is managed globally
   }
 
   openViewDrawer(book: Book) {
