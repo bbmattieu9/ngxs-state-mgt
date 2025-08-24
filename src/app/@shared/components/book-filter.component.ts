@@ -134,6 +134,37 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
       font-size: 18px;
       font-weight: 600;
     }
+
+    /* Form Controls - Border Radius */
+input[nz-input],
+.ant-input,
+.ant-picker,
+.ant-input-number {
+  border-radius: 6px !important;
+}
+
+/* NZ Select specific styling with ::ng-deep */
+::ng-deep .ant-select-selector {
+  border-radius: 6px !important;
+}
+
+::ng-deep nz-select .ant-select-selector {
+  border-radius: 6px !important;
+}
+
+::ng-deep .ant-select .ant-select-selector {
+  border-radius: 6px !important;
+}
+
+/* Select dropdown with ::ng-deep */
+::ng-deep .ant-select-dropdown {
+  border-radius: 6px !important;
+}
+
+/* Date picker dropdown with ::ng-deep */
+::ng-deep .ant-picker-dropdown {
+  border-radius: 6px !important;
+}
   `
 })
 export class BookFilterComponent implements OnInit {
