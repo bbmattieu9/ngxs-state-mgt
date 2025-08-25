@@ -24,13 +24,12 @@ import { Router } from '@angular/router';
   styles: `
   .idle-timer-container {
   position: fixed;
-  bottom: 50px; /* Adjust as needed */
-  right: 50px; /* Adjust as needed */
+  bottom: 50px; 
+  right: 50px; 
   z-index: 9999;
   text-align: center;
   z-index: 9999;
   pointer-events: none;
-  /* Add more styling for the button if you want it to look more distinct */
 }
 
 .warning-text {

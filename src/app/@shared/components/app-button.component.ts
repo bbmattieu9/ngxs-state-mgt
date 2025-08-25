@@ -59,6 +59,7 @@ export class AppButtonComponent {
   @Input() icon?: string;
   @Input() customClass?: string;
   @Input() customStyle?: string;
+  @Input() label: string = '';
 
   @Output() clicked = new EventEmitter<void>();
 
