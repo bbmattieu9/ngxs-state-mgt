@@ -1,6 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzGridModule } from 'ng-zorro-antd/grid';
@@ -10,6 +17,7 @@ import { AppButtonComponent } from '../../@shared/components/app-button.componen
 
 @Component({
   selector: 'app-login',
+  standalone: true,
   imports: [
     NzGridModule,
     FormsModule,
@@ -21,77 +29,109 @@ import { AppButtonComponent } from '../../@shared/components/app-button.componen
     AppButtonComponent,
   ],
   template: `
- 
- <nz-row class="full-height">
- 
-  <nz-col [nzXs]="0" [nzSm]="0" [nzMd]="0" [nzLg]="12" [nzXl]="12" class="left-panel">
-    <div class="left-overlay">
-    
-      <img src="assets/img/logo.png" alt="logo" class="logo" />
+    <nz-row class="full-height">
+      <nz-col
+        [nzXs]="0"
+        [nzSm]="0"
+        [nzMd]="0"
+        [nzLg]="12"
+        [nzXl]="12"
+        class="left-panel"
+      >
+        <div class="left-overlay">
+          <img src="assets/img/logo.png" alt="logo" class="logo" />
 
-      
-      <h1 class="login-title">
-        <span class="zsa">Online</span>
-        <span class="container-text">Book Cove</span>
-       
-      </h1>
+          <h1 class="login-title">
+            <span class="zsa">Online</span>
+            <span class="container-text">Book Cove</span>
+          </h1>
 
-     
-      <div class="flag-container">
-        <div class="flag-circle slide-in"><span class="fi fi-us"></span></div>
-        <div class="flag-circle slide-in"><span class="fi fi-gb"></span></div>
-        <div class="flag-circle slide-in"><span class="fi fi-ca"></span></div>
-      </div>
-    </div>
-  </nz-col>
+          <div class="flag-container">
+            <div class="flag-circle slide-in">
+              <span class="fi fi-us"></span>
+            </div>
+            <div class="flag-circle slide-in">
+              <span class="fi fi-gb"></span>
+            </div>
+            <div class="flag-circle slide-in">
+              <span class="fi fi-ca"></span>
+            </div>
+          </div>
+        </div>
+      </nz-col>
 
-  <!-- Right Column -->
-  <nz-col [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="12" [nzXl]="12" class="right-panel">
-    <div class="login-wrapper">
-      <div class="form-card">
-        <img src="assets/img/logo.png" alt="logo" width="40" height="40" />
-        <h4 class="info">Sign In</h4>
+      <!-- Right Column -->
+      <nz-col
+        [nzXs]="24"
+        [nzSm]="24"
+        [nzMd]="24"
+        [nzLg]="12"
+        [nzXl]="12"
+        class="right-panel"
+      >
+        <div class="login-wrapper">
+          <div class="form-card">
+            <img src="assets/img/logo.png" alt="logo" width="40" height="40" />
+            <h4 class="info">Sign In</h4>
 
-        <form nz-form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form" autocomplete="off">
-          <nz-form-item>
-            <nz-form-control nzErrorTip="Please input your userID!">
-              <nz-input-group nzPrefixIcon="user">
-                <input type="text" nz-input formControlName="userID" placeholder="User ID" />
-              </nz-input-group>
-            </nz-form-control>
-          </nz-form-item>
-       
-       
+            <form
+              nz-form
+              [formGroup]="loginForm"
+              (ngSubmit)="onSubmit()"
+              class="login-form"
+              autocomplete="off"
+            >
+              <nz-form-item>
+                <nz-form-control nzErrorTip="Please input your userID!">
+                  <nz-input-group nzPrefixIcon="user">
+                    <input
+                      type="text"
+                      nz-input
+                      formControlName="userID"
+                      placeholder="User ID"
+                    />
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
 
-          <nz-form-item>
-            <nz-form-control nzErrorTip="Please input your password!">
-              <nz-input-group nzPrefixIcon="lock">
-                <input type="password" nz-input formControlName="password" placeholder="Password" />
-              </nz-input-group>
-            </nz-form-control>
-          </nz-form-item>
+              <nz-form-item>
+                <nz-form-control nzErrorTip="Please input your password!">
+                  <nz-input-group nzPrefixIcon="lock">
+                    <input
+                      type="password"
+                      nz-input
+                      formControlName="password"
+                      placeholder="Password"
+                    />
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
 
-          <app-button
-            typeAttr="submit"
-            [label]="'Login'"
-            [type]="'primary'"
-            [size]="'large'"
-          ></app-button>
-        </form>
-      </div>
+              <app-button
+                typeAttr="submit"
+                [label]="'Login'"
+                [type]="'primary'"
+                [size]="'large'"
+              ></app-button>
+            </form>
+          </div>
 
-      <div class="footer text-center mt-4">
-        <p>© {{ currentYear }} All rights reserved.</p>
-      </div>
-    </div>
-  </nz-col>
-</nz-row>
- 
+          <div class="footer text-center mt-4">
+            <p>© {{ currentYear }} All rights reserved.</p>
+          </div>
+        </div>
+      </nz-col>
+    </nz-row>
   `,
-  styles: ``
+  styles: ``,
 })
-export class LoginComponent implements OnInit
-{
+export class LoginComponent implements OnInit {
+  constructor(private fb: FormBuilder) {
+    this.loginForm = this.fb.group({
+      userID: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+    });
+  }
 
   currentYear = new Date().getFullYear();
 
@@ -105,16 +145,18 @@ export class LoginComponent implements OnInit
     }
     if (!this.loginForm.get('password')) {
       this.loginForm.addControl('password', new FormControl(''));
-    } 
+    }
   }
 
   onSubmit(): void {
-    this.onTriggerLogin.emit();
+    if (this.loginForm.valid) {
+      this.onTriggerLogin.emit(this.loginForm.value);
+    } else {
+      this.loginForm.markAllAsTouched();
+    }
   }
-
 
   ngOnInit(): void {
     this.ensureControlsExist();
   }
-
 }
