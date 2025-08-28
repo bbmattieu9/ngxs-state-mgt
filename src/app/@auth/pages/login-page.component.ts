@@ -1,7 +1,16 @@
 import { Component, OnInit, inject} from '@angular/core';
 import { LoginComponent } from '../components/login.component';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoadingService } from '../../@core/services/loading.service';
+import { Router } from '@angular/router';
+
+import { catchError, EMPTY, filter, finalize, Observable, of, Subject, switchMap, take, tap } from 'rxjs';
+import { NotificationService } from '../../@core/service/notification.service';
+import { AuthService } from '../data-access/auth.service';
+
+interface AuthCredentials {
+
+}
 
 @Component({
   selector: 'app-login-page',
@@ -94,57 +103,6 @@ handleLogin(authMode: 'password' | 'piN_OTP'): void {
         finalize(() => this.loadingSrv.loadingOff())
       )
       .subscribe();
-  }
-
-  takeAllCred() {
-
-    if (this.loginForm.invalid) return;
-   
-    this.loadingSrv.loadingOn();
-    const raw = this.loginForm.getRawValue();
-
-    console.log('[ __RAW __]:', raw);
-     let credentials: AuthCredentials =
-      
-      { 
-        userID: raw.userID, 
-        password: raw.password, 
-        countryCode: raw.countryCode,
-        piN_OTP: raw.roleName,
-        applicationID: environment.APP_CREDENTIAL.APP_ID.toString(),
-     }
-    
-      return this.authSrv.login2(credentials).pipe(
-      tap((res) => {
-         console.log('[ __Auth Response2__ ]:', res);
-         const token = res?.content.token;
-         this.authSrv.setAccessToken(token);
-         this.authSrv.setUser(res?.content.user);
-         this.authSrv.setCurrentUser(res?.content.user);
-      }),
-      switchMap(() => this.authSrv.isAuthenticated$),
-      filter(isAuthenticated => isAuthenticated),
-      take(1), 
-      tap(() => {
-      const user = this.authSrv.getCurrentUser();
-      if (user) {
-        const userRole = user.role;
-        const redirectPath = this.authSrv.getRedirectPathByRole(userRole);
-        console.log('[  __RedirectPath__ ]:', redirectPath);
-        this.router.navigateByUrl(redirectPath);
-      }
-    }),
-    finalize(() => {
-      this.loadingSrv.loadingOff();
-    })
-     ).subscribe({
-    next: () => {
-      console.log('[ __Login Successful__]');
-    },
-    error: (err) => {
-      console.log('[ __login Err__ ]')
-    }
-  });
   }
 
   ngOnDestroy(): void {
