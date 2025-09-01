@@ -52,30 +52,30 @@ export class LoginPageComponent implements OnInit{
 
 
 
-private loginFlow$(
-  credentials: AuthCredentials,
-  authMode: 'password' | 'piN_OTP'): Observable<any> {
-  return this.authSrv.login(credentials, authMode).pipe(
-    tap((res) => {
-      console.log('[ __Auth Response__ ]:', res);
-      const token = res?.content.token;
-      this.authSrv.setAccessToken(token);
-      this.authSrv.setUser(res?.content.user);
-      this.authSrv.setCurrentUser(res?.content.user);
-    }),
-    switchMap(() => this.authSrv.isAuthenticated$),
-    filter(isAuthenticated => isAuthenticated),
-    take(1), 
-    tap(() => {
-      const user = this.authSrv.getCurrentUser();
-      if (user) {
-        const userRole = user.role;
-        const redirectPath = this.authSrv.getRedirectPathByRole(userRole);
-        console.log('[  __RedirectPath__ ]:', redirectPath);
-        this.router.navigateByUrl(redirectPath);
-      }
-    }));
-}
+// private loginFlow$(
+//   credentials: AuthCredentials,
+//   authMode: 'password' | 'piN_OTP'): Observable<any> {
+//   return this.authSrv.login(credentials, authMode).pipe(
+//     tap((res) => {
+//       console.log('[ __Auth Response__ ]:', res);
+//       const token = res?.content.token;
+//       this.authSrv.setAccessToken(token);
+//       this.authSrv.setUser(res?.content.user);
+//       this.authSrv.setCurrentUser(res?.content.user);
+//     }),
+//     switchMap(() => this.authSrv.isAuthenticated$),
+//     filter(isAuthenticated => isAuthenticated),
+//     take(1), 
+//     tap(() => {
+//       const user = this.authSrv.getCurrentUser();
+//       if (user) {
+//         const userRole = user.role;
+//         const redirectPath = this.authSrv.getRedirectPathByRole(userRole);
+//         console.log('[  __RedirectPath__ ]:', redirectPath);
+//         this.router.navigateByUrl(redirectPath);
+//       }
+//     }));
+// }
 
 handleLogin(authMode: 'password' | 'piN_OTP'): void {
     this.loginForm.markAllAsTouched();
@@ -90,7 +90,7 @@ handleLogin(authMode: 'password' | 'piN_OTP'): void {
     of(credentials)
       .pipe(
         tap(() => this.loadingSrv.loadingOn()),
-        switchMap((creds) => this.loginFlow$(creds, authMode)),
+        // switchMap((creds) => this.loginFlow$(creds, authMode)),
         catchError((err) => {
           console.error('[__Login Error__]:', err);
           this.notificationSrv.customErrorNotifiction(
