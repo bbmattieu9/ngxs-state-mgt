@@ -7,21 +7,23 @@ import {
   Observable,
 } from 'rxjs';
 import { CacheService } from './cache.service';
+
+
 import { AuthCredentials, AuthResponse } from '../types/auth-types';
-import Encryptor from '../utils/auth-crypto';
-import { environment } from 'environments/environment';
-import { User } from 'shared/types/user-model';
-import { LoadingService } from 'shared/data-access/loading.service';
+import { LoadingService } from '../../@core/services/loading.service';
+import { NotificationService } from '../../@core/service/notification.service';
+import { User } from '../../@shared/types/user-model';
 import { jwtDecode } from 'jwt-decode';
-import { NotificationService } from 'app/core/service/notification.service';
-import { AUTH_KEYS } from 'shared/constants/auth.keys';
-import { buildApiPath } from 'app/core/utils/api-path';
+import { buildApiPath } from '../../@core/util/api-paths';
+import { environment } from '../../../environments/environmrnt';
+import { AUTH_KEYS } from '../../@shared/constants/auth.keys';
+import Encryptor from '../../@core/util/auth-crypto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService extends CacheService {
-  private readonly LOGIN_URL = buildApiPath('online-callover/login');
+  private readonly LOGIN_URL = buildApiPath('book-api/login');
 
   private readonly _httpMessenger = inject(HttpClient);
   private readonly _router = inject(Router);
