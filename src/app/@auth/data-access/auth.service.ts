@@ -7,15 +7,12 @@ import {
   Observable,
 } from 'rxjs';
 import { CacheService } from './cache.service';
-
-
 import { AuthCredentials, AuthResponse } from '../types/auth-types';
 import { LoadingService } from '../../@core/services/loading.service';
 import { NotificationService } from '../../@core/service/notification.service';
 import { User } from '../../@shared/types/user-model';
 import { jwtDecode } from 'jwt-decode';
 import { buildApiPath } from '../../@core/util/api-paths';
-import { environment } from '../../../environments/environmrnt';
 import { AUTH_KEYS } from '../../@shared/constants/auth.keys';
 import Encryptor from '../../@core/util/auth-crypto';
 
@@ -45,26 +42,14 @@ export class AuthService extends CacheService {
 
   login(
     credentials: AuthCredentials,
-    authMode: 'password' | 'piN_OTP'
   ): Observable<AuthResponse> {
-    let payload: AuthCredentials;
-
-    if (authMode === 'password') {
-      payload = {
+    let payload: AuthCredentials =  
+    {
         userID: credentials.userID,
         password: credentials.password,
-        applicationID: environment.APP_CREDENTIAL.APP_ID.toString(),
-      };
-    } else {
-      payload = {
-        userID: credentials.userID,
-        piN_OTP: credentials.piN_OTP,
-        applicationID: environment.APP_CREDENTIAL.APP_ID.toString(),
-      };
     }
-
+    
     const encryptedPayload = Encryptor.encryptCredential({ ...payload });
-
     return this._httpMessenger.post<AuthResponse>(this.LOGIN_URL, encryptedPayload);
   }
 
@@ -94,6 +79,10 @@ export class AuthService extends CacheService {
     return this.currentUserSubject.value;
   }
 
+  setUser(user: User): void {
+    this.setItem(AUTH_KEYS.USER, user)
+  }
+
   hasRole(role: string): boolean {
     const user = this.currentUserSubject.value;
     return user?.role === role;
@@ -120,5 +109,10 @@ export class AuthService extends CacheService {
   logout(): void {
     this.clearSession();
     this._router.navigate(['/auth/login']);
+  }
+
+  getRedirectPathByRole(userRole: string): string {
+    // TODO: TO BE IMPLEMENTTD LATER
+    return '';
   }
 }

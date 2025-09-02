@@ -7,10 +7,9 @@ import { Router } from '@angular/router';
 import { catchError, EMPTY, filter, finalize, Observable, of, Subject, switchMap, take, tap } from 'rxjs';
 import { NotificationService } from '../../@core/service/notification.service';
 import { AuthService } from '../data-access/auth.service';
+import { AuthCredentials } from '../types/auth-types';
 
-interface AuthCredentials {
 
-}
 
 @Component({
   selector: 'app-login-page',
@@ -19,7 +18,7 @@ interface AuthCredentials {
     <app-login
       [loginForm]="loginForm"
       [loggingIn]="loggingIn"
-      (onTriggerLogin)="handleLogin($event)"
+      (onTriggerLogin)="handleLogin()"
     >
     </app-login>
   `,
@@ -52,41 +51,38 @@ export class LoginPageComponent implements OnInit{
 
 
 
-// private loginFlow$(
-//   credentials: AuthCredentials,
-//   authMode: 'password' | 'piN_OTP'): Observable<any> {
-//   return this.authSrv.login(credentials, authMode).pipe(
-//     tap((res) => {
-//       console.log('[ __Auth Response__ ]:', res);
-//       const token = res?.content.token;
-//       this.authSrv.setAccessToken(token);
-//       this.authSrv.setUser(res?.content.user);
-//       this.authSrv.setCurrentUser(res?.content.user);
-//     }),
-//     switchMap(() => this.authSrv.isAuthenticated$),
-//     filter(isAuthenticated => isAuthenticated),
-//     take(1), 
-//     tap(() => {
-//       const user = this.authSrv.getCurrentUser();
-//       if (user) {
-//         const userRole = user.role;
-//         const redirectPath = this.authSrv.getRedirectPathByRole(userRole);
-//         console.log('[  __RedirectPath__ ]:', redirectPath);
-//         this.router.navigateByUrl(redirectPath);
-//       }
-//     }));
-// }
+private loginFlow$(
+  credentials: AuthCredentials): Observable<any> {
+  return this.authSrv.login(credentials).pipe(
+    tap((res) => {
+      console.log('[ __Auth Response__ ]:', res);
+      const token = res?.content.token;
+      this.authSrv.setAccessToken(token);
+      this.authSrv.setUser(res?.content.user);
+      this.authSrv.setCurrentUser(res?.content.user);
+    }),
+    switchMap(() => this.authSrv.isAuthenticated$),
+    filter(isAuthenticated => isAuthenticated),
+    take(1), 
+    tap(() => {
+      const user = this.authSrv.getCurrentUser();
+      if (user) {
+        const userRole = user.role;
+        const redirectPath = this.authSrv.getRedirectPathByRole(userRole);
+        console.log('[  __RedirectPath__ ]:', redirectPath);
+        this.router.navigateByUrl(redirectPath);
+      }
+    }));
+}
 
-handleLogin(authMode: 'password' | 'piN_OTP'): void {
+handleLogin(): void {
     this.loginForm.markAllAsTouched();
     if (this.loginForm.invalid) return;
 
     const raw = this.loginForm.getRawValue();
     
-    const credentials: AuthCredentials =
-      authMode === 'password'
-        ? { userID: raw.userID, password: raw.password, countryCode: raw.countryCode }
-        : { userID: raw.userID, piN_OTP: raw.piN_OTP, countryCode: raw.countryCode };
+    const credentials: AuthCredentials=raw;
+     
     of(credentials)
       .pipe(
         tap(() => this.loadingSrv.loadingOn()),
