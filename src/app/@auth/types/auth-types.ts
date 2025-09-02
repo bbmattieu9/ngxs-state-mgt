@@ -4,9 +4,7 @@ import { User } from "../../@shared/types/user-model";
 
 export type AuthCredentials = {
   userID: string;
-  piN_OTP?: string;
   password?: string;
-  applicationID?: string;
 };
 
 
