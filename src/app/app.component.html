@@ -1,12 +1,15 @@
 <nz-layout class="app-layout">
-  <nz-sider class="menu-sidebar"
+  <nz-sider 
+    class="menu-sidebar"
     nzCollapsible
     nzWidth="256px"
-    [(nzCollapsed)]="isCollapsed"
+    
+
+   [(nzCollapsed)]="isCollapsed"
     [nzTrigger]="null"
   >
     <div class="sidebar-logo">
-      <a href="#" target="_blank">
+      <a href="#">
         <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
         <h1>Book Store</h1>
       </a>
@@ -20,8 +23,8 @@
   <nz-layout>
     <nz-header>
       <div class="app-header">
-        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-          <nz-icon class="trigger" [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" />
+        <span class="header-trigger">
+          <!-- <nz-icon class="trigger" [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" /> -->
         </span>
       </div>
     </nz-header>
