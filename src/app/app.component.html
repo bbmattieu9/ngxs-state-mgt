@@ -1,41 +1,6 @@
 <nz-layout class="app-layout">
-  <nz-sider 
-    class="menu-sidebar"
-    nzCollapsible
-    nzWidth="256px"
-    
-
-   [(nzCollapsed)]="isCollapsed"
-    [nzTrigger]="null"
-  >
-    <div class="sidebar-logo">
-      <a href="#">
-        <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
-        <h1>Book Store</h1>
-      </a>
-    </div>
-    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-      <li nz-submenu nzOpen nzTitle="Form" nzIcon="form">
-       
-      </li>
-    </ul>
-  </nz-sider>
-  <nz-layout>
-    <nz-header>
-      <div class="app-header">
-        <span class="header-trigger">
-          <!-- <nz-icon class="trigger" [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" /> -->
-        </span>
-      </div>
-    </nz-header>
-    <nz-content>
-      <div class="inner-content">
-        <router-outlet></router-outlet>
-        <ng-container *ngIf="authenticated">
-          <app-idle-countdown></app-idle-countdown>
-        </ng-container>
-       
-      </div>
-    </nz-content>
-  </nz-layout>
+  <router-outlet></router-outlet>
 </nz-layout>
+
+<!-- this should only run when user is Authenticated -->
+<!-- <app-loader [detectRouteTransitions]="true"></app-loader> -->

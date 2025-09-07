@@ -8,7 +8,7 @@ export const APP_ROUTES: Routes = [
       import('./@auth/auth.routes').then((m) => m.AUTH_ROUTES),
   },
 
-  { path: 'welcome', loadChildren: () => import('./pages/welcome/welcome.routes').then(m => m.WELCOME_ROUTES) },
+  // { path: 'welcome', loadChildren: () => import('./pages/welcome/welcome.routes').then(m => m.WELCOME_ROUTES) },
   {
     path: 'books',
     loadChildren: () => import('./@features/book/book.routes').then(m => m.BOOK_ROUTES)
@@ -19,5 +19,6 @@ export const APP_ROUTES: Routes = [
     pathMatch: 'full'
   }
 ];
+
 
 

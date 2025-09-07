@@ -8,11 +8,11 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NzIconModule, NzLayoutModule, NzMenuModule, IdleCountdownComponent, CommonModule],
+  imports: [RouterOutlet, NzIconModule, NzLayoutModule, NzMenuModule, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  isCollapsed = true;
+  
   authenticated: boolean = false;
 }
