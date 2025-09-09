@@ -123,7 +123,138 @@ import { AppButtonComponent } from '../../@shared/components/app-button.componen
       </nz-col>
     </nz-row>
   `,
-  styles: ``,
+    styles: `
+// @use 'main' as *;
+
+.full-height {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.left-panel {
+  position: relative;
+  // background: url('assets/img/red-black.jpg') no-repeat center center / cover;
+}
+
+.left-overlay {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(105deg, rgba(69, 61, 59, 0.75), rgba(69, 61, 59, 0.35));
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.logo {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  width: 50px;
+  height: auto;
+}
+
+.login-title {
+  margin-top: 6rem;
+  margin-bottom: 2rem;
+}
+.login-title span {
+  display: block;
+  font-weight: bold;
+  font-size: 6rem;
+  color: #fefef1;
+  text-transform: uppercase;
+  line-height: 1;
+  animation-duration: 1.5s;
+  animation-fill-mode: both;
+}
+.zsa { animation-name: slideUp; }
+.container-text { animation-name: slideUp; animation-delay: 0.3s; }
+.management-app { animation-name: slideUp; animation-delay: 0.6s; }
+
+.flag-container {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.flag-circle {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  opacity: 0;
+  transform: translateY(50px);
+  animation: slideUp 1.5s ease forwards;
+}
+.flag-circle:nth-child(1) { animation-delay: 0.9s; }
+.flag-circle:nth-child(2) { animation-delay: 1.2s; }
+.flag-circle:nth-child(3) { animation-delay: 1.5s; }
+
+.right-panel {
+  background-color: #fefef1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.login-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 100%;
+  width: 100%;
+  padding: 4rem 2rem;
+}
+
+.form-card {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  border: 1px solid #e8e8e8;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 350px;
+ // margin-bottom: 2rem;
+}
+
+.info {
+  font-weight: var(--fw-bold-700);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  padding: 10px 0;
+}
+
+.footer {
+  font-size: 0.75rem;
+  color: #777;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 992px) {
+  .left-panel { display: none; }
+  .right-panel { width: 100%; }
+  .login-title span { font-size: 2.5rem; }
+}
+
+@media (max-width: 576px) {
+  .form-card { padding: 1.5rem; }
+  .login-title span { font-size: 2rem; }
+}
+  `,
 })
 export class LoginComponent implements OnInit {
   constructor(private fb: FormBuilder) {

@@ -7,65 +7,51 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
   selector: 'app-button',
   standalone: true,
   imports: [CommonModule, NzButtonModule, NzIconModule],
-  template: `
+ template: `
     <button
       nz-button
-      [nzType]="type"
-      [nzSize]="size"
-      [nzDanger]="danger"
-      [nzLoading]="loading"
-      [nzShape]="shape"
-      [disabled]="disabled"
-      [class]="customClass"
-      [style]="customStyle"
-      (click)="onClick()"
+      [attr.type]="typeAttr"
+      [disabled]="isDisabled || isLoading"
+      [ngClass]="[
+        'btn',
+        'btn-' + type,
+        'btn-' + size,
+        fullWidth ? 'btn-full' : ''
+      ]"
+      (click)="emitClick()"
     >
-      <span nz-icon [nzType]="icon" *ngIf="icon"></span>
-      <ng-content></ng-content>
+      <ng-container *ngIf="icon">
+        <i [nzType]="icon" nz-icon class="icon-left"></i>
+      </ng-container>
+      {{ label }}
     </button>
   `,
-  styles: `
-    button {
-      border-radius: 6px !important;
-      transition: all 0.3s ease;
-      transform: translateY(0);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    
-    button:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-    
-    button:active:not(:disabled) {
-      transform: translateY(0);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      transition: all 0.1s ease;
-    }
-    
-    button:disabled {
-      transform: translateY(0) !important;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
-    }
-  `
+  styles: ``,
 })
 export class AppButtonComponent {
-  @Input() type: 'primary' | 'default' | 'dashed' | 'text' | 'link' = 'default';
-  @Input() size: 'large' | 'default' | 'small' = 'default';
-  @Input() danger = false;
-  @Input() loading = false;
-  @Input() disabled = false;
-  @Input() shape: 'circle' | 'round' | null = null;
-  @Input() icon?: string;
-  @Input() customClass?: string;
-  @Input() customStyle?: string;
-  @Input() label: string = '';
+  @Input() label: string = 'Click';
+  @Input() loadingText: string = 'Loading...';
+  @Input() typeAttr: 'button' | 'submit' | 'reset' = 'button';
+  @Input() type:
+    | 'primary'
+    | 'default'
+    | 'dashed'
+    | 'link'
+    | 'text'
+    | 'secondary'
+    | 'outline' = 'primary';
+  @Input() size: 'sm' | 'md' | 'lg' = 'md';
+  @Input() icon: string | null = null;
+  @Input() isLoading: boolean = false;
+  @Input() isDisabled: boolean = false;
+  @Input() width: string = '';
+  @Input() fullWidth = false;
 
-  @Output() clicked = new EventEmitter<void>();
+  @Output() onClick = new EventEmitter<void>();
 
-  onClick(): void {
-    if (!this.disabled && !this.loading) {
-      this.clicked.emit();
+  emitClick(): void {
+    if (!this.isLoading) {
+      this.onClick.emit();
     }
   }
 }

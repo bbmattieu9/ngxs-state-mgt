@@ -1,0 +1,21 @@
+@mixin btn-base {
+    border-radius: $btn-radius;
+    box-shadow: $btn-shadow;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    }
+  }
+  
+  @mixin btn-size($padding) {
+    padding: $padding;
+    font-size: 14px;
+  }
+  
