@@ -1,0 +1,29 @@
+// Heading Styles
+.heading-1, h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--clr-headings);
+  }
+  
+  .heading-2, h2 {
+    font-size:var(--fs-500);
+    font-weight: var(--fs-600);
+    margin-bottom: 0.5rem;
+    color: var(--clr-headings);
+  }
+  
+  .heading-3, h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--clr-headings);
+  }
+  
+  .heading-4, h4 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--clr-headings);
+  }
+  

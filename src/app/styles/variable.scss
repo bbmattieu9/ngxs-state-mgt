@@ -1,0 +1,40 @@
+// CSS Custom Properties (for use in global styles or utility classes)
+:root {
+  --ff-base: "Outfit", sans-serif;
+  --clr-headings: #001529;
+
+  // Font Size
+  --fs-300: 1.25rem;
+  --fs-400: 1.5rem;
+  --fs-500: 1.75rem;
+  --fs-600: 2rem;
+
+  // Font Weight
+  --fw-bold-700: 700;
+  --fw-bold-600: 600;
+  --fw-bold-500: 500;
+
+  // Spacing
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 24px;
+  --spacing-6: 30px;
+}
+
+// SCSS Variables
+$primary-color: #e3000f;
+$secondary-color: #001529;
+$primary-gradient: linear-gradient(90deg, #e3000f, #7f070f);
+$secondary-color: #777;
+$white: #fff;
+
+// Button Sizes
+$btn-padding-sm: 2px 8px;
+$btn-padding-md: 6px 16px;
+$btn-padding-lg: 10px 24px;
+
+// Border radius & shadow
+$btn-radius: 6px;
+$btn-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);

@@ -78,3 +78,30 @@
 //   background: #fff;
 //   // height: 100%;
 // }
+
+
+
+:host {
+  display: block;
+  height: 100vh;
+  overflow: hidden; /* Prevent root scroll jump */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+
+:host ::ng-deep router-outlet ~ * {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

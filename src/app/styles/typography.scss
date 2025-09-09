@@ -1,0 +1,62 @@
+// Typography Styles
+
+// Base font family
+body {
+    font-family: var(--ff-base);
+    line-height: 1.6;
+    color: #777;
+  }
+
+
+
+  
+  // Headings
+  .heading-1,
+  h1 {
+    font-family: var(--ff-base);
+    font-size: var(--fs-600);
+    font-weight: var(--fw-bold-700);
+    margin-bottom: 0.75rem;
+    color: var(--clr-headings);
+  }
+  
+  .heading-2,
+  h2 {
+    font-family: "Outfit", sans-serif;
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--clr-headings);
+  }
+  
+  .heading-3,
+  h3 {
+    font-family: "Outfit", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--clr-headings);
+  }
+  
+  .heading-4,
+  h4 {
+    font-family: var(--ff-base);
+    font-size: var(--fs-30);
+    font-weight: var(--fw-bold-500);
+    margin-bottom: 0.5rem;
+    color: var(--clr-headings);
+  }
+  
+  // Optional util classes
+  .text-center {
+    text-align: center;
+  }
+  
+  .fw-bold {
+    font-weight: 700;
+  }
+  
+  .fw-medium {
+    font-weight: 500;
+  }
+  

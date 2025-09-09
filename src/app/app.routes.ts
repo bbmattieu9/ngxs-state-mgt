@@ -15,7 +15,7 @@ export const APP_ROUTES: Routes = [
   },
   {
     path: '',
-    redirectTo: 'books',
+    redirectTo: 'auth',
     pathMatch: 'full'
   }
 ];
