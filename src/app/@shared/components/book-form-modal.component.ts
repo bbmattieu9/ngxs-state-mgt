@@ -107,7 +107,6 @@ interface ModalData {
   <div class="form-actions">
     <app-button 
       type="primary" 
-      [disabled]="!bookForm.valid" 
       (clicked)="submitForm()"
     >
       Submit
