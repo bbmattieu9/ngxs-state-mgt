@@ -53,7 +53,7 @@ import { FormsModule } from '@angular/forms';
             type="default" 
             icon="reload" 
             (clicked)="resetFilters()"
-            [disabled]="!(isFiltered$ | async)">
+            [isDisabled]="!(isFiltered$ | async)">
           Reset Filters
         </app-button>
    </div>

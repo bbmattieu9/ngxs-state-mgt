@@ -111,7 +111,7 @@ import { AppButtonComponent } from '../../@shared/components/app-button.componen
                 typeAttr="submit"
                 [label]="'Login'"
                 [type]="'primary'"
-                [size]="'large'"
+                [size]="'lg'"
               ></app-button>
             </form>
           </div>
