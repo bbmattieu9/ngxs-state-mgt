@@ -18,6 +18,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NgIdleModule } from '@ng-idle/core';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
+import { AuthState } from './@auth/state/auth.state';
 
 
 registerLocaleData(en);
@@ -26,7 +27,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),  
     provideRouter(APP_ROUTES),
-    provideStore([BooksState]),
+    provideStore([BooksState, AuthState]),
     provideAnimations(),
     importProvidersFrom(NzModalModule, NzDrawerModule, NgIdleModule.forRoot(),
     NzProgressModule),
