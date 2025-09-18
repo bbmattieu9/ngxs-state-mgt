@@ -119,7 +119,7 @@ import { AppButtonComponent } from '../../@shared/components/app-button.componen
                 [label]="loggingIn ? 'Signing In...' : 'Login'"
                 [type]="'primary'"
                 [size]="'lg'"
-                [disabled]="loggingIn"
+            
               ></app-button>
             </form>
           </div>
