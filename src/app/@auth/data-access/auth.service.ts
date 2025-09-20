@@ -62,12 +62,12 @@ export class AuthService extends CacheService {
     return this._httpMessenger.post<AuthResponse>(this.LOGIN_URL, encryptedPayload).pipe(
       tap((response: AuthResponse) => {
         // On successful login
-        if (response.token) {
+        if (response.content.token) {
           // Store token in cache
-          this.setAccessToken(response.token);
+          this.setAccessToken(response.content.token);
           
           // Decode user from token
-          const user = this.decodeJWT(response.token);
+          const user = this.decodeJWT(response.content.token);
           
           // Store user in cache
           this.setUser(user);
@@ -75,7 +75,7 @@ export class AuthService extends CacheService {
           // Update NGXS state
           this._store.dispatch(new AuthActions.LoginSuccess({
             user: user,
-            token: response.token
+            token: response.content.token
           }));
         }
       }),
