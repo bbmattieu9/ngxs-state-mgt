@@ -4,7 +4,7 @@ import { User } from "../../@shared/types/user-model";
 
 export type AuthCredentials = {
   userID: string;
-  password?: string;
+  password: string;
 };
 
 

@@ -5,13 +5,17 @@ import { AuthActions } from './auth.actions';
 
 // Adjust these interfaces to match your existing models
 export interface User {
-  id: string;
-  username: string;
-  email: string;
-  firstName?: string;
-  lastName?: string;
-  roles?: string[];
-  // Add other user properties as needed
+  userId: string;
+    name: string;
+    employeeClassCode: string | null;
+    staffId: string | null;
+    unit: string;
+    branch: string;
+    userName: string;
+    email: string;
+    role: string;
+    department: string;
+    branchId: string | null;
 }
 
 export interface AuthStateModel {
@@ -59,13 +63,13 @@ export class AuthState {
   }
 
   @Selector()
-  static userRoles(state: AuthStateModel): string[] {
-    return state.user?.roles || [];
+  static userRoles(state: AuthStateModel): string {
+    return state.user?.role || '';
   }
 
   @Selector()
   static userName(state: AuthStateModel): string {
-    return state.user?.username || '';
+    return state.user?.userName || '';
   }
 
   @Selector()

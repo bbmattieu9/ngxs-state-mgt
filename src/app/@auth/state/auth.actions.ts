@@ -3,7 +3,7 @@
 export namespace AuthActions {
   export class Login {
     static readonly type = '[Auth] Login';
-    constructor(public credentials: { username: string; password: string }) {}
+    constructor(public credential:{ userID: string; password: string }) {}
   }
 
   export class LoginSuccess {
