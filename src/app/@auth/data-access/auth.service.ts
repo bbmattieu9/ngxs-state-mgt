@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import {
@@ -10,7 +10,7 @@ import {
   throwError,
 } from 'rxjs';
 import { CacheService } from './cache.service';
-import { AuthCredentials, AuthResponse } from '../types/auth-types';
+import { AuthCredentials, AuthError, AuthResponse } from '../types/auth-types';
 import { LoadingService } from '../../@core/services/loading.service';
 import { NotificationService } from '../../@core/service/notification.service';
 import { User } from '../../@shared/types/user-model';
@@ -79,13 +79,19 @@ export class AuthService extends CacheService {
           }));
         }
       }),
-      catchError((error) => {
-        // On login failure, dispatch failure action
-        this._store.dispatch(new AuthActions.LoginFailure(error));
-        return throwError(() => error);
-      })
-    );
-  }
+
+      catchError((error: HttpErrorResponse) => {
+      const authError: AuthError = {
+        message: error.error?.message || 'An unexpected error occurred.',
+        status: error.status,
+        code: error.statusText,
+        details: error.error,
+      };
+
+  this._store.dispatch(new AuthActions.LoginFailure(authError));
+  return throwError(() => authError);
+}));
+}
 
   initializeCurrentUserFromToken(): void {
     // Dispatch action to check auth status

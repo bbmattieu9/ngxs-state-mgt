@@ -1,19 +1,23 @@
 // auth.actions.ts
 
+import { User } from "../../@shared/types/user-model";
+import { AuthError } from "../types/auth-types";
+
+
 export namespace AuthActions {
   export class Login {
     static readonly type = '[Auth] Login';
-    constructor(public credential:{ userID: string; password: string }) {}
+    constructor(public credential: { userID: string; password: string }) {}
   }
 
   export class LoginSuccess {
     static readonly type = '[Auth] Login Success';
-    constructor(public payload: { user: any; token: string }) {}
+    constructor(public payload: { user: User; token: string }) {}
   }
 
   export class LoginFailure {
     static readonly type = '[Auth] Login Failure';
-    constructor(public error: any) {}
+    constructor(public error: AuthError) {}
   }
 
   export class Logout {
@@ -35,13 +39,13 @@ export namespace AuthActions {
 
   export class RefreshTokenFailure {
     static readonly type = '[Auth] Refresh Token Failure';
-    constructor(public error: any) {}
+      constructor(public error: AuthError) {}
   }
 
-  // Set Auth Data (for initialization from cache/storage)
-  export class SetAuthData {
+
+    export class SetAuthData {
     static readonly type = '[Auth] Set Auth Data';
-    constructor(public payload: { user: any; token: string }) {}
+    constructor(public payload: { user: User; token: string }) {}
   }
 
   export class ClearAuthData {
@@ -52,11 +56,10 @@ export namespace AuthActions {
     static readonly type = '[Auth] Check Auth Status';
   }
 
-  export class UpdateUserProfile {
+export class UpdateUserProfile {
     static readonly type = '[Auth] Update User Profile';
-    constructor(public user: any) {}
+    constructor(public user: User) {}
   }
-
   export class SetAuthenticationStatus {
     static readonly type = '[Auth] Set Authentication Status';
     constructor(public isAuthenticated: boolean) {}
