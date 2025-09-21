@@ -24,3 +24,10 @@ export interface AuthResponse {
   responseTime: string;
 }
 
+
+export interface AuthError {
+  message: string;
+  code?: string;
+  status?: number;
+  details?: any;
+}

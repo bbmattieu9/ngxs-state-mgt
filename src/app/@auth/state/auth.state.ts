@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { AuthActions } from './auth.actions';
+import { AuthError } from '../types/auth-types';
 
 // Adjust these interfaces to match your existing models
 export interface User {
@@ -23,7 +24,7 @@ export interface AuthStateModel {
   token: string | null;
   refreshToken?: string | null;
   isAuthenticated: boolean;
-  error: any;
+  error: AuthError | null;
   lastLoginTime?: Date | null;
 }
 
