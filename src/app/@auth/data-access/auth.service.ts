@@ -49,7 +49,6 @@ export class AuthService extends CacheService {
   }
 
   login(credentials: AuthCredentials): Observable<AuthResponse> {
-    // Dispatch login action to clear any previous errors
     this._store.dispatch(new AuthActions.Login(credentials));
 
     let payload: AuthCredentials = {
@@ -61,18 +60,12 @@ export class AuthService extends CacheService {
     
     return this._httpMessenger.post<AuthResponse>(this.LOGIN_URL, encryptedPayload).pipe(
       tap((response: AuthResponse) => {
-        // On successful login
-        if (response.content.token) {
-          // Store token in cache
-          this.setAccessToken(response.content.token);
-          
-          // Decode user from token
-          const user = this.decodeJWT(response.content.token);
-          
-          // Store user in cache
-          this.setUser(user);
-          
-          // Update NGXS state
+        
+        if (response?.content?.token) {
+
+          this.setAccessToken(response?.content?.token);
+          const user = this.decodeJWT(response?.content?.token);
+          this.cacheAndPatchUser(user);
           this._store.dispatch(new AuthActions.LoginSuccess({
             user: user,
             token: response.content.token
@@ -122,10 +115,10 @@ export class AuthService extends CacheService {
     return jwtDecode<User>(token);
   }
 
-  setCurrentUser(user: User | null): void {
+  setOrUpdateCurrentUser(user: User | null): void {
     // Update both cache and store
     if (user) {
-      this.setUser(user);
+      this.cacheAndPatchUser(user);
       // Get current token from store or cache
       const currentToken = this._store.selectSnapshot(AuthState.token) || this.getAccessToken();
       if (currentToken) {
@@ -146,7 +139,7 @@ export class AuthService extends CacheService {
     return this._store.selectSnapshot(AuthState.user);
   }
 
-  setUser(user: User): void {
+  cacheAndPatchUser(user: User): void {
     this.setItem(AUTH_KEYS.USER, user);
     // Also update store
     this._store.dispatch(new AuthActions.UpdateUserProfile(user));
