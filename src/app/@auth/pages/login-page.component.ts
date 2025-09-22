@@ -50,7 +50,6 @@ export class LoginPageComponent implements OnInit{
   }
 
 
-
 private loginFlow$(
   credentials: AuthCredentials): Observable<any> {
   return this.authSrv.login(credentials).pipe(
@@ -58,8 +57,8 @@ private loginFlow$(
       console.log('[ __Auth Response__ ]:', res);
       const token = res?.content.token;
       this.authSrv.setAccessToken(token);
-      this.authSrv.setUser(res?.content.user);
-      this.authSrv.setCurrentUser(res?.content.user);
+      this.authSrv.cacheAndPatchUser(res?.content.user);
+      this.authSrv.setOrUpdateCurrentUser(res?.content.user);
     }),
     switchMap(() => this.authSrv.isAuthenticated$),
     filter(isAuthenticated => isAuthenticated),
@@ -86,9 +85,9 @@ handleLogin(): void {
     of(credentials)
       .pipe(
         tap(() => this.loadingSrv.loadingOn()),
-        // switchMap((creds) => this.loginFlow$(creds, authMode)),
+        switchMap((creds) => this.loginFlow$(creds)),
         catchError((err) => {
-          console.error('[__Login Error__]:', err);
+          console.error('[ __Login Error__ ]:', err);
           this.notificationSrv.customErrorNotifiction(
             `Login Failed - ${
               err?.error?.message || err.message || 'Unknown error'
