@@ -107,13 +107,6 @@ import { AppButtonComponent } from '../../@shared/components/app-button.componen
                 </nz-form-control>
               </nz-form-item>
 
-              <!-- <app-button
-                typeAttr="submit"
-                [label]="'Login'"
-                [type]="'primary'"
-                [size]="'lg'"
-              ></app-button> -->
-
               <app-button
                 typeAttr="submit"
                 [label]="loggingIn ? 'Signing In...' : 'Login'"
@@ -132,7 +125,6 @@ import { AppButtonComponent } from '../../@shared/components/app-button.componen
     </nz-row>
   `,
   styles: `
-// @use 'main' as *;
 
 .full-height {
   height: 100vh;
