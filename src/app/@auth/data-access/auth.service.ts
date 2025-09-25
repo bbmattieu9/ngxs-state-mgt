@@ -2,7 +2,6 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import {
-  BehaviorSubject,
   catchError,
   map,
   Observable,
@@ -10,141 +9,112 @@ import {
   throwError,
 } from 'rxjs';
 import { CacheService } from './cache.service';
-import { AuthCredentials, AuthError, AuthResponse } from '../types/auth-types';
-import { LoadingService } from '../../@core/services/loading.service';
+import { AuthCredentials, AuthResponse } from '../types/auth-types';
 import { NotificationService } from '../../@core/service/notification.service';
 import { User } from '../../@shared/types/user-model';
 import { jwtDecode } from 'jwt-decode';
 import { buildApiPath } from '../../@core/util/api-paths';
 import { AUTH_KEYS } from '../../@shared/constants/auth.keys';
 import Encryptor from '../../@core/util/auth-crypto';
-import { Store } from '@ngxs/store';
-import { AuthActions } from '../state';
-import { AuthState } from '../state/auth.state';
+import { AuthMockService } from './auth-mock.service';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService extends CacheService {
   private readonly LOGIN_URL = buildApiPath('book-api/login');
+  
+
+  private readonly USE_MOCK_API = true;
 
   private readonly _httpMessenger = inject(HttpClient);
   private readonly _router = inject(Router);
-  private readonly _store = inject(Store);
-
-  loadingSrv = inject(LoadingService);
-  notificationSrv = inject(NotificationService);
-
-  // Keep these for backward compatibility, but they now come from store
-  public get currentUser$(): Observable<User | null> {
-    return this._store.select(AuthState.user);
-  }
-
-  public get isAuthenticated$(): Observable<boolean> {
-    return this._store.select(AuthState.isAuthenticated);
-  }
+  private readonly authMockService = inject(AuthMockService);
+  private readonly notificationSrv = inject(NotificationService);
 
   constructor() {
     super();
-    this.initializeCurrentUserFromToken();
   }
 
-  login(credentials: AuthCredentials): Observable<AuthResponse> {
-    this._store.dispatch(new AuthActions.Login(credentials));
-
-    let payload: AuthCredentials = {
-      userID: credentials.userID,
-      password: credentials.password,
-    };
-    
-    const encryptedPayload = Encryptor.encryptCredential({ ...payload });
-    
-    return this._httpMessenger.post<AuthResponse>(this.LOGIN_URL, encryptedPayload).pipe(
-      tap((response: AuthResponse) => {
-        
-        if (response?.content?.token) {
-
-          this.setAccessToken(response?.content?.token);
-          const user = this.decodeJWT(response?.content?.token);
-          this.cacheAndPatchUser(user);
-          this._store.dispatch(new AuthActions.LoginSuccess({
-            user: user,
-            token: response.content.token
-          }));
-        }
-      }),
-
-      catchError((error: HttpErrorResponse) => {
-      const authError: AuthError = {
-        message: error.error?.message || 'An unexpected error occurred.',
-        status: error.status,
-        code: error.statusText,
-        details: error.error,
+login(credentials: AuthCredentials): Observable<AuthResponse> {
+    if (this.USE_MOCK_API) {
+      return this.authMockService.login(credentials).pipe(
+        map((mockResponse) => ({
+          content: {
+            user: mockResponse.user,
+            token: mockResponse.token
+          },
+          error: null,
+          hasError: false,
+          errorMessage: '',
+          message: mockResponse.responseDecription || 'Login successful',
+          isSuccess: true
+        } as AuthResponse))
+      );
+    } else {
+      const payload: AuthCredentials = {
+        userID: credentials.userID,
+        password: credentials.password,
       };
+      
+      const encryptedPayload = Encryptor.encryptCredential({ ...payload });
+      
+      return this._httpMessenger.post<AuthResponse>(this.LOGIN_URL, encryptedPayload);
+    }
+  }
 
-  this._store.dispatch(new AuthActions.LoginFailure(authError));
-  return throwError(() => authError);
-}));
-}
-
-  initializeCurrentUserFromToken(): void {
-    // Dispatch action to check auth status
-    this._store.dispatch(new AuthActions.CheckAuthStatus());
-    
+ initializeCurrentUserFromToken(): { user: User | null; token: string | null; isAuthenticated: boolean } {
     const token = this.getAccessToken();
 
     if (token) {
       try {
         const user = this.decodeJWT(token);
-        
-        // Set auth data in store
-        this._store.dispatch(new AuthActions.SetAuthData({
-          user: user,
-          token: token
-        }));
+        return {
+          user,
+          token,
+          isAuthenticated: true
+        };
       } catch (error) {
         console.error('Invalid token detected:', error);
-        this.logout();
+        this.clearSession();
+        return {
+          user: null,
+          token: null,
+          isAuthenticated: false
+        };
       }
-    } else {
-      // Clear auth data if no token
-      this._store.dispatch(new AuthActions.ClearAuthData());
+    }
+
+    return {
+      user: null,
+      token: null,
+      isAuthenticated: false
+    };
+  }
+
+  decodeJWT(token: string): User | null {
+    if (this.USE_MOCK_API) {
+      return this.getItem(AUTH_KEYS.USER);
+    }
+    try {
+      return jwtDecode<User>(token);
+    } catch (error) {
+      console.error('Failed to decode JWT token:', error);
+      return null;
     }
   }
+  
 
-  decodeJWT(token: string): User {
-    return jwtDecode<User>(token);
-  }
-
-  setOrUpdateCurrentUser(user: User | null): void {
-    // Update both cache and store
-    if (user) {
-      this.cacheAndPatchUser(user);
-      // Get current token from store or cache
-      const currentToken = this._store.selectSnapshot(AuthState.token) || this.getAccessToken();
-      if (currentToken) {
-        this._store.dispatch(new AuthActions.SetAuthData({
-          user: user,
-          token: currentToken
-        }));
-      } else {
-        this._store.dispatch(new AuthActions.UpdateUserProfile(user));
-      }
-    } else {
-      this._store.dispatch(new AuthActions.ClearAuthData());
-    }
-  }
-
-  getCurrentUser(): User | null {
-    // Get current user from store
-    return this._store.selectSnapshot(AuthState.user);
-  }
-
-  cacheAndPatchUser(user: User): void {
+  cacheAuthData(user: User, token: string): void {
     this.setItem(AUTH_KEYS.USER, user);
-    // Also update store
-    this._store.dispatch(new AuthActions.UpdateUserProfile(user));
+    this.setItem(AUTH_KEYS.JWT, token);
   }
 
+ 
+  getCurrentUser(): User | null {
+    return this.getItem(AUTH_KEYS.USER);
+  }
+
+ 
   hasRole(role: string): boolean {
     const user = this.getCurrentUser();
     return user?.role === role;
@@ -155,71 +125,51 @@ export class AuthService extends CacheService {
     return roles.includes(user?.role || '');
   }
 
+
   setAccessToken(token: string): void {
     this.setItem(AUTH_KEYS.JWT, token);
   }
+
 
   getAccessToken(): string | null {
     return this.getItem(AUTH_KEYS.JWT);
   }
 
+ 
   clearSession(): void {
-    // Clear cache first
     this.clearCache();
-    
-    // Then clear NGXS state
-    this._store.dispatch(new AuthActions.ClearAuthData());
   }
 
+ 
   logout(): void {
-    // Dispatch logout action
-    this._store.dispatch(new AuthActions.Logout());
-    
-    // Clear session
     this.clearSession();
-    
-    // Dispatch logout success
-    this._store.dispatch(new AuthActions.LogoutSuccess());
-    
-    // Navigate to login
     this._router.navigate(['/auth/login']);
   }
 
   getRedirectPathByRole(userRole: string): string {
-    // TODO: TO BE IMPLEMENTED LATER
-    return '';
+    const roleRoutes: { [key: string]: string } = {
+      'Admin': '/admin/dashboard',
+      'User': '/user/dashboard',
+      'Manager': '/manager/dashboard',
+    };
+
+    return roleRoutes[userRole] || '/dashboard';
   }
 
-  // Additional helper methods for NGXS integration
   
-  /**
-   * Refresh token (if you implement refresh token logic later)
-   */
-  refreshToken(): Observable<any> {
-    this._store.dispatch(new AuthActions.RefreshToken());
-    // TODO: Implement refresh token logic
-    // Return HTTP call and dispatch RefreshTokenSuccess/Failure
+  hasValidToken(): boolean {
+    const token = this.getAccessToken();
+    return !!token;
+  }
+
+ 
+  updateUserProfile(user: User): void {
+    this.setItem(AUTH_KEYS.USER, user);
+  }
+
+  
+  refreshToken(): Observable<string> {
+    // TODO: Implement when refresh token logic is needed
     return throwError(() => new Error('Refresh token not implemented'));
-  }
-
-  /**
-   * Check if user is currently authenticated (synchronous)
-   */
-  isAuthenticated(): boolean {
-    return this._store.selectSnapshot(AuthState.isAuthenticated);
-  }
-
-  /**
-   * Get current auth error (if any)
-   */
-  getAuthError(): any {
-    return this._store.selectSnapshot(AuthState.error);
-  }
-
-  /**
-   * Clear auth errors
-   */
-  clearAuthError(): void {
-    // You could add a ClearError action if needed
   }
 }
