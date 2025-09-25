@@ -8,8 +8,6 @@ export type AuthCredentials = {
 };
 
 
-export type AuthMode = 'password' | 'piN_OTP';
-
 export interface AuthResponse {
   content: {
     token: string;
@@ -20,8 +18,6 @@ export interface AuthResponse {
   errorMessage: string;
   message: string | null;
   isSuccess: boolean;
-  requestTime: string;
-  responseTime: string;
 }
 
 

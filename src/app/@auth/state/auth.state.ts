@@ -3,21 +3,9 @@ import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { AuthActions } from './auth.actions';
 import { AuthError } from '../types/auth-types';
-
-// Adjust these interfaces to match your existing models
-export interface User {
-  userId: string;
-    name: string;
-    employeeClassCode: string | null;
-    staffId: string | null;
-    unit: string;
-    branch: string;
-    userName: string;
-    email: string;
-    role: string;
-    department: string;
-    branchId: string | null;
-}
+import { User } from '../../@shared/types/user-model';
+import { AuthMockService } from '../data-access/auth-mock.service';
+import { catchError, finalize, tap, throwError } from 'rxjs';
 
 export interface AuthStateModel {
   user: User | null;
@@ -25,7 +13,7 @@ export interface AuthStateModel {
   refreshToken?: string | null;
   isAuthenticated: boolean;
   error: AuthError | null;
-  lastLoginTime?: Date | null;
+  loading?: boolean;
 }
 
 @State<AuthStateModel>({
@@ -36,13 +24,13 @@ export interface AuthStateModel {
     refreshToken: null,
     isAuthenticated: false,
     error: null,
-    lastLoginTime: null
-  }
+    loading: false,
+  },
 })
 @Injectable()
 export class AuthState {
+  constructor(private authMockService: AuthMockService) {}
 
-  // Selectors
   @Selector()
   static user(state: AuthStateModel): User | null {
     return state.user;
@@ -51,6 +39,11 @@ export class AuthState {
   @Selector()
   static token(state: AuthStateModel): string | null {
     return state.token;
+  }
+
+  @Selector()
+  static loading(state: AuthStateModel): boolean {
+    return state.loading || false;
   }
 
   @Selector()
@@ -78,37 +71,61 @@ export class AuthState {
     return state.user?.email || '';
   }
 
-  // Action Handlers
   @Action(AuthActions.Login)
   login(ctx: StateContext<AuthStateModel>, action: AuthActions.Login) {
-    // Clear any previous errors
     ctx.patchState({
-      error: null
+      error: null,
+      loading: true,
     });
-    
-    // The actual login HTTP call will be handled in the auth service
-    // This action just clears the error state
+
+    return this.authMockService.login(action.credential).pipe(
+      tap((response: any) => {
+        ctx.dispatch(
+          new AuthActions.LoginSuccess({
+            user: response.user,
+            token: response.token,
+          })
+        );
+      }),
+      catchError((error: any) => {
+        ctx.dispatch(
+          new AuthActions.LoginFailure({
+            message: error.error.responseDescription,
+          })
+        );
+        return throwError(() => error);
+      }),
+      finalize(() => {
+        ctx.patchState({
+          loading: false,
+        });
+      })
+    );
   }
 
   @Action(AuthActions.LoginSuccess)
-  loginSuccess(ctx: StateContext<AuthStateModel>, action: AuthActions.LoginSuccess) {
+  loginSuccess(
+    ctx: StateContext<AuthStateModel>,
+    action: AuthActions.LoginSuccess
+  ) {
     ctx.patchState({
       user: action.payload.user,
       token: action.payload.token,
       isAuthenticated: true,
       error: null,
-      lastLoginTime: new Date()
     });
   }
 
   @Action(AuthActions.LoginFailure)
-  loginFailure(ctx: StateContext<AuthStateModel>, action: AuthActions.LoginFailure) {
+  loginFailure(
+    ctx: StateContext<AuthStateModel>,
+    action: AuthActions.LoginFailure
+  ) {
     ctx.patchState({
       user: null,
       token: null,
       isAuthenticated: false,
       error: action.error,
-      lastLoginTime: null
     });
   }
 
@@ -116,20 +133,19 @@ export class AuthState {
   logout(ctx: StateContext<AuthStateModel>) {
     // Clear error state, actual logout logic in service
     ctx.patchState({
-      error: null
+      error: null,
     });
   }
 
   @Action(AuthActions.LogoutSuccess)
   logoutSuccess(ctx: StateContext<AuthStateModel>) {
-    // Reset to initial state
     ctx.setState({
       user: null,
       token: null,
       refreshToken: null,
       isAuthenticated: false,
       error: null,
-      lastLoginTime: null
+      loading: false,
     });
   }
 
@@ -137,36 +153,45 @@ export class AuthState {
   refreshToken(ctx: StateContext<AuthStateModel>) {
     // Clear errors before refresh attempt
     ctx.patchState({
-      error: null
+      error: null,
     });
   }
 
   @Action(AuthActions.RefreshTokenSuccess)
-  refreshTokenSuccess(ctx: StateContext<AuthStateModel>, action: AuthActions.RefreshTokenSuccess) {
+  refreshTokenSuccess(
+    ctx: StateContext<AuthStateModel>,
+    action: AuthActions.RefreshTokenSuccess
+  ) {
     ctx.patchState({
       token: action.token,
-      error: null
+      error: null,
     });
   }
 
   @Action(AuthActions.RefreshTokenFailure)
-  refreshTokenFailure(ctx: StateContext<AuthStateModel>, action: AuthActions.RefreshTokenFailure) {
+  refreshTokenFailure(
+    ctx: StateContext<AuthStateModel>,
+    action: AuthActions.RefreshTokenFailure
+  ) {
     ctx.patchState({
       error: action.error,
       // Optionally clear auth data on refresh failure
       isAuthenticated: false,
       token: null,
-      user: null
+      user: null,
     });
   }
 
   @Action(AuthActions.SetAuthData)
-  setAuthData(ctx: StateContext<AuthStateModel>, action: AuthActions.SetAuthData) {
+  setAuthData(
+    ctx: StateContext<AuthStateModel>,
+    action: AuthActions.SetAuthData
+  ) {
     ctx.patchState({
       user: action.payload.user,
       token: action.payload.token,
       isAuthenticated: true,
-      error: null
+      error: null,
     });
   }
 
@@ -178,7 +203,7 @@ export class AuthState {
       refreshToken: null,
       isAuthenticated: false,
       error: null,
-      lastLoginTime: null
+      loading: false,
     });
   }
 
@@ -189,16 +214,22 @@ export class AuthState {
   }
 
   @Action(AuthActions.UpdateUserProfile)
-  updateUserProfile(ctx: StateContext<AuthStateModel>, action: AuthActions.UpdateUserProfile) {
+  updateUserProfile(
+    ctx: StateContext<AuthStateModel>,
+    action: AuthActions.UpdateUserProfile
+  ) {
     ctx.patchState({
-      user: action.user
+      user: action.user,
     });
   }
 
   @Action(AuthActions.SetAuthenticationStatus)
-  setAuthenticationStatus(ctx: StateContext<AuthStateModel>, action: AuthActions.SetAuthenticationStatus) {
+  setAuthenticationStatus(
+    ctx: StateContext<AuthStateModel>,
+    action: AuthActions.SetAuthenticationStatus
+  ) {
     ctx.patchState({
-      isAuthenticated: action.isAuthenticated
+      isAuthenticated: action.isAuthenticated,
     });
   }
 
@@ -207,7 +238,7 @@ export class AuthState {
     ctx.patchState({
       isAuthenticated: false,
       token: null,
-      error: { message: 'Token has expired' }
+      error: { message: 'Token has expired' },
     });
   }
 }
